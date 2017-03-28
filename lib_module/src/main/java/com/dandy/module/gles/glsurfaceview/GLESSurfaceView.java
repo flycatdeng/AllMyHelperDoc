@@ -12,9 +12,8 @@ import com.dandy.helper.gles.IGLESRenderer;
 
 /**
  * GLSurfaceView优化类，必须调用{@link #setRenderer(IGLESRenderer)},并且实现IGLESRenderer
- * 
+ *
  * @author flycatdeng
- * 
  */
 public class GLESSurfaceView extends GLSurfaceView {
     private IGLESRenderer mGLESRenderer;
@@ -31,6 +30,15 @@ public class GLESSurfaceView extends GLSurfaceView {
 
     private void init(Context context) {
         this.setEGLContextClientVersion(2); // 设置使用OPENGL ES2.0
+    }
+
+    /**
+     * <pre>
+     *  默认的设置透明背景的方法，根据实际情况，可能setEGLConfigChooser中的alpha可能要设置成0
+     *  再者就是这个方法需要在setRenderer之前调用才有效
+     * </pre>
+     */
+    public void setTranslucent() {
         // 设置背景透明，否则一般加载时间长的话会先黑一下，但是也有问题，就是在它之上无法再有View了，因为它是top的，用的时候需要注意，必要的时候将其设置为false
         setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
