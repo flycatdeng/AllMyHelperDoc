@@ -22,7 +22,7 @@ public class SimpleGLESRenderer implements IGLESRenderer {
 
     @Override
     public void onSurfaceCreated() {
-        GLES20.glClearColor(0, 0, 0, 0);
+        GLES20.glClearColor(1, 0, 0, 1);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         // 打开背面剪裁
         GLES20.glEnable(GLES20.GL_CULL_FACE);
