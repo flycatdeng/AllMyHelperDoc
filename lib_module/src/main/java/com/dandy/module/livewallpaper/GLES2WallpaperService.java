@@ -2,24 +2,21 @@ package com.dandy.module.livewallpaper;
 
 import com.dandy.helper.android.LogHelper;
 import com.dandy.helper.gles.CommonUtils;
+import com.dandy.helper.gles.IGLESRenderer;
+import com.dandy.module.gles.glsurfaceview.GLESSurfaceView;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.opengl.GLSurfaceView;
-import android.opengl.GLSurfaceView.Renderer;
 import android.os.Build;
 import android.view.SurfaceHolder;
 
 /**
  * <pre>
  * OpenGL动态壁纸Service，基本框架。
- * 真正的动态壁纸还需要实现其具体方法 {@link #getGLSurfaceViewRenderer()}这个方法主要的就是平时用的GLSurfaceView中的Renderer了
- * {@link #getRenderLifeRecycleCallback()}主要是用于在Render中会使用的一些其他工具需要的生命周期
+ * {@link #getGLESRender()}得到IGLESRender对象该对象在GLESSurfaceView中的生命周期对应被调用，Renderer的方法也被调用，也就是囊括了需要的基本方法
  * </pre>
- * 
+ *
  * @author dengchukun 2016年12月9日
  */
-@SuppressLint("NewApi")
 public abstract class GLES2WallpaperService extends AWallpaperService {
     @Override
     public Engine getWallpaperEngine() {
@@ -28,13 +25,13 @@ public abstract class GLES2WallpaperService extends AWallpaperService {
 
     /**
      * 实现的是Engine，返回该对象 动态壁纸就可以渲染了
-     * 
+     *
      * @author dengchukun 2016年12月9日
      */
     class OpenGLES2Engine extends Engine {
         private final String TAG = OpenGLES2Engine.class.getSimpleName();
         private ProxyGLSurfaceView mProxyGLSurfaceView;
-        private IRenderLifeRecycleCallback mRenderLifeRecycleCallback;
+        private IGLESRenderer mGLESRender;
 
         /**
          * <pre>
@@ -49,10 +46,10 @@ public abstract class GLES2WallpaperService extends AWallpaperService {
          * <p style="color:red">
          * 超级邪门，这个类放在外面还不行，硬是要放到OpenGLES2Engine类里边才能有用，否则ProxyGLSurfaceView的TAG都得不到（null）
          * </p>
-         * 
+         *
          * @author dengchukun 2016年12月9日
          */
-        class ProxyGLSurfaceView extends GLSurfaceView {
+        class ProxyGLSurfaceView extends GLESSurfaceView {
             private final String TAG = ProxyGLSurfaceView.class.getSimpleName();
 
             public ProxyGLSurfaceView(Context context) {
@@ -62,11 +59,12 @@ public abstract class GLES2WallpaperService extends AWallpaperService {
 
             public void init() {
                 LogHelper.d(TAG, LogHelper.getThreadName());
-                setEGLContextClientVersion(2);
+//                setEGLContextClientVersion(2);
+                setTranslucent();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     setPreserveEGLContextOnPause(true);
                 }
-                setRenderer(getGLSurfaceViewRenderer());
+                setRenderer(mGLESRender);
             }
 
             @Override
@@ -87,10 +85,10 @@ public abstract class GLES2WallpaperService extends AWallpaperService {
             if (!isSupportEs2) {
                 return;
             }
+            mGLESRender = getGLESRender();
             mProxyGLSurfaceView = new ProxyGLSurfaceView(GLES2WallpaperService.this);
             LogHelper.d(TAG, LogHelper.getThreadName());
             mProxyGLSurfaceView.init();
-            mRenderLifeRecycleCallback = getRenderLifeRecycleCallback();
         }
 
         @Override
@@ -100,8 +98,8 @@ public abstract class GLES2WallpaperService extends AWallpaperService {
             if (mProxyGLSurfaceView != null) {
                 mProxyGLSurfaceView.onDestroy();
             }
-            if (mRenderLifeRecycleCallback != null) {
-                mRenderLifeRecycleCallback.onDestroy();
+            if (mGLESRender != null) {
+                mGLESRender.onDestroy();
             }
         }
 
@@ -114,27 +112,18 @@ public abstract class GLES2WallpaperService extends AWallpaperService {
             }
             if (visible) {
                 mProxyGLSurfaceView.onResume();
-                if (mRenderLifeRecycleCallback != null) {
-                    mRenderLifeRecycleCallback.onResume();
+                if (mGLESRender != null) {
+                    mGLESRender.onResume();
                 }
             } else {
                 mProxyGLSurfaceView.onPause();
-                if (mRenderLifeRecycleCallback != null) {
-                    mRenderLifeRecycleCallback.onPause();
+                if (mGLESRender != null) {
+                    mGLESRender.onPause();
                 }
             }
         }
     }
 
-    public abstract Renderer getGLSurfaceViewRenderer();
+    public abstract IGLESRenderer getGLESRender();
 
-    /**
-     * <pre>
-     * 渲染生命周期回调
-     * may be null
-     * </pre>
-     * 
-     * @return
-     */
-    public abstract IRenderLifeRecycleCallback getRenderLifeRecycleCallback();
 }
