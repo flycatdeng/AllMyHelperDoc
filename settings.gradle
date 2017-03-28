@@ -1,1 +1,1 @@
-include ':app', ':lib_common', ':lib_module'
+include ':app', ':lib_common', ':lib_module', ':lib_gles_engine'
