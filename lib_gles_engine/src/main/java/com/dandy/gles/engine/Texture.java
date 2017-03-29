@@ -44,8 +44,12 @@ public class Texture extends Base {
 
     public Texture(Context context) {
         mContext = context;
-        mPositionBuffer = ByteBuffer.allocateDirect(POSITION.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        mPositionBuffer.put(POSITION).position(0);
+        mPositionBuffer = ByteBuffer.allocateDirect(POSITION.length * 4)
+                // Floats can be in big-endian or little-endian order.
+                // We want the same as the native platform.
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer();// Give us a floating-point view on this byte buffer
+        mPositionBuffer.put(POSITION).position(0);//Copy data from the Java heap to the native heap.
         mTexCoorBuffer = ByteBuffer.allocateDirect(TEXTURE.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTexCoorBuffer.put(TEXTURE).position(0);
     }

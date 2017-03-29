@@ -1,0 +1,23 @@
+
+
+VBO
+    直接在GPU上开辟一个存储区来存储数据，我们平时的那种是在CPU上存储的，然后绘制的时候每次都会copy到GPU上去
+    我们平时用的FloatBuffer等不是VBO，只是在CPU上的一段而已
+    http://www.learnopengles.com/android-lesson-seven-an-introduction-to-vertex-buffer-objects-vbos/
+    // First, generate as many buffers as we need.
+    // This will give us the OpenGL handles for these buffers.
+    final int buffers[] = new int[3];
+    GLES20.glGenBuffers(3, buffers, 0);
+    // Bind to the buffer. Future commands will affect this buffer specifically.
+    GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
+    // Transfer data from client memory to the buffer.
+    // We can release the client memory after this call.
+    GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, cubePositionsBuffer.capacity() * BYTES_PER_FLOAT,
+        cubePositionsBuffer, GLES20.GL_STATIC_DRAW);
+    // IMPORTANT: Unbind from the buffer when we're done with it.
+    GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+    。。。
+    // Pass in the position information
+    GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mCubePositionsBufferIdx);
+    GLES20.glEnableVertexAttribArray(mPositionHandle);
+    mGlEs20.glVertexAttribPointer(mPositionHandle, POSITION_DATA_SIZE, GLES20.GL_FLOAT, false, 0, 0);
