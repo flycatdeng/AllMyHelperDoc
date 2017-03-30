@@ -14,7 +14,7 @@ import java.nio.FloatBuffer;
 
 /**
  * <pre>
- *  直接显示纹理的方式，无需借助Matrix的一种方式
+ *  直接显示纹理的方式，无需借助Matrix的一种方式，因为这里没有用到坐标变换
  * </pre>
  * Created by flycatdeng on 2017/3/28.
  */

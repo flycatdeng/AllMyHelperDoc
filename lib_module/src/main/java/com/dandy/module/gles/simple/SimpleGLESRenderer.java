@@ -14,7 +14,7 @@ import com.dandy.helper.gles.IGLESRenderer;
 
 public class SimpleGLESRenderer implements IGLESRenderer {
 //    private SimpleTexture mSimpleTexture;
-    private Context mContext;
+    protected Context mContext;
 
     public SimpleGLESRenderer(Context context) {
         mContext = context;
