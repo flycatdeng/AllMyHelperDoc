@@ -1,10 +1,12 @@
 package com.dandy.gles.engine;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.opengl.GLES20;
 
 import com.dandy.helper.android.LogHelper;
 import com.dandy.helper.gles.ShaderHelper;
+import com.dandy.helper.gles.TextureHelper;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -12,7 +14,7 @@ import java.nio.FloatBuffer;
 
 /**
  * <pre>
- *
+ *  直接显示纹理的方式，无需借助Matrix的一种方式
  * </pre>
  * Created by flycatdeng on 2017/3/28.
  */
@@ -121,5 +123,32 @@ public class Texture extends Base {
     protected void onDrawArraysAfter() {
     }
 
+    /**
+     * 设置纹理，回收Bitmap对象
+     *
+     * @param bitmap
+     */
+    public void setTexture(Bitmap bitmap) {
+        setTexture(bitmap, true);
+    }
 
+    /**
+     * 设置纹理
+     *
+     * @param bitmap     纹理Bitmap
+     * @param recycleBmp 是否回收该bitmap
+     */
+    public void setTexture(final Bitmap bitmap, final boolean recycleBmp) {
+        mRunOnDraw.addToPending(new Runnable() {
+            @Override
+            public void run() {
+                if (mTextureID == -1) {
+                    mTextureID = TextureHelper.initTextureID(bitmap, recycleBmp);
+                } else {
+                    GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+                    TextureHelper.changeTextureImage(bitmap);
+                }
+            }
+        });
+    }
 }

@@ -30,17 +30,7 @@ public class Image extends Texture {
         }
         //TODO 建议做成可以缓存的
         mTextureBmp = AssetsHelper.getBitmap(mContext, assetName);
-        mRunOnDraw.addToPending(new Runnable() {
-            @Override
-            public void run() {
-                if (mTextureID == -1) {
-                    mTextureID = TextureHelper.initTextureID(mTextureBmp, true);
-                } else {
-                    GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-                    TextureHelper.changeTextureImage(mTextureBmp);
-                }
-            }
-        });
+        setTexture(mTextureBmp);
     }
 
 
