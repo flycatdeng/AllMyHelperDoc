@@ -151,4 +151,10 @@ public class Texture extends Base {
             }
         });
     }
+    /**
+     * 设置纹理
+     */
+    public void setTexture(int textureId) {
+        mTextureID=textureId;
+    }
 }
