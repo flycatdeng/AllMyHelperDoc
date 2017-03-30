@@ -13,8 +13,10 @@ import com.dandy.helper.gles.IGLESRenderer;
  */
 
 public class SimpleGLESRenderer implements IGLESRenderer {
-//    private SimpleTexture mSimpleTexture;
+    //    private SimpleTexture mSimpleTexture;
     protected Context mContext;
+    protected int mSurfaceWidth;//窗口宽
+    protected int mSurfaceHeight;//窗口高
 
     public SimpleGLESRenderer(Context context) {
         mContext = context;
@@ -32,6 +34,8 @@ public class SimpleGLESRenderer implements IGLESRenderer {
 
     @Override
     public void onSurfaceChanged(int width, int height) {
+        mSurfaceWidth = width;
+        mSurfaceHeight = height;
         // 设置视窗大小及位置
         GLES20.glViewport(0, 0, width, height);
 //        mSimpleTexture.onSurfaceChanged(width, height);

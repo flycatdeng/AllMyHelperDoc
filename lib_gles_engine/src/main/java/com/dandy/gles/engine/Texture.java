@@ -105,6 +105,7 @@ public class Texture extends Base {
         GLES20.glEnableVertexAttribArray(aTexcoorHandler);
 
         if (mTextureID != -1) {
+            LogHelper.d(TAG,LogHelper.getThreadName()+" mTextureID="+mTextureID);
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);
             GLES20.glUniform1i(uSamplerTextureHandler, 0);
@@ -151,10 +152,11 @@ public class Texture extends Base {
             }
         });
     }
+
     /**
      * 设置纹理
      */
-    public void setTexture(int textureId) {
-        mTextureID=textureId;
+    public void initTexture(int textureId) {
+        mTextureID = textureId;
     }
 }

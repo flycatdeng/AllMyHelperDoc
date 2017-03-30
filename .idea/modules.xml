@@ -3,10 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AllMyHelperDoc.iml" filepath="$PROJECT_DIR$/AllMyHelperDoc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/AllMyHelperDoc.iml" filepath="$PROJECT_DIR$/AllMyHelperDoc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_common/lib_common.iml" filepath="$PROJECT_DIR$/lib_common/lib_common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_gles_engine/lib_gles_engine.iml" filepath="$PROJECT_DIR$/lib_gles_engine/lib_gles_engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_module/lib_module.iml" filepath="$PROJECT_DIR$/lib_module/lib_module.iml" />
     </modules>
   </component>
 </project>

@@ -2,10 +2,8 @@ package com.dandy.gles.engine;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.opengl.GLES20;
 
 import com.dandy.helper.android.AssetsHelper;
-import com.dandy.helper.gles.TextureHelper;
 
 public class Image extends Texture {
     private static final String TAG = "Image";
@@ -14,6 +12,11 @@ public class Image extends Texture {
     private Image(Context context) {
         super(context);
         mVertexCount = 4;
+    }
+
+    public static Image createEmptyImage(Context context) {
+        Image image = new Image(context);
+        return image;
     }
 
     public static Image createFromAssets(Context context, String assetName) {

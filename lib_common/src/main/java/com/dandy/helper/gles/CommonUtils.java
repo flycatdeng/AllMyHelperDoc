@@ -41,7 +41,7 @@ public class CommonUtils {
     public static void checkGlError(String op) {
         int error;
         while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-            LogHelper.d("ES20_ERROR", op + ": glError " + error);
+            LogHelper.d("ES20_ERROR", LogHelper.getThreadName() + op + ": glError " + error);
             throw new RuntimeException(op + ": glError " + error);
         }
     }
@@ -50,6 +50,7 @@ public class CommonUtils {
      * <pre>
      *     判断环境是否支持FBO
      * </pre>
+     *
      * @param gl
      * @return
      */

@@ -15,11 +15,8 @@ public class ShaderHelper {
     private static final String TAG = ShaderHelper.class.getSimpleName();
 
     /**
-     * 
-     * @param shaderType
-     *            shader的类型 GLES20.GL_VERTEX_SHADER(顶点) GLES20.GL_FRAGMENT_SHADER(片元)
-     * @param source
-     *            shader的脚本字符串
+     * @param shaderType shader的类型 GLES20.GL_VERTEX_SHADER(顶点) GLES20.GL_FRAGMENT_SHADER(片元)
+     * @param source     shader的脚本字符串
      * @return
      */
     public static int getShader(int shaderType, String source) {
@@ -28,7 +25,7 @@ public class ShaderHelper {
         if (shader == 0) {// 创建shader不成功
             throw new RuntimeException(TAG + LogHelper.getThreadName() + " Error creating vertex shader.");
         } // 若创建成功则加载shader
-          // 加载shader的源代码
+        // 加载shader的源代码
         GLES20.glShaderSource(shader, source);
         // 编译shader
         GLES20.glCompileShader(shader);
@@ -47,9 +44,8 @@ public class ShaderHelper {
 
     /**
      * 通过顶点着色器字符串得到顶点着色器ID
-     * 
-     * @param vertexSource
-     *            顶点着色器字符串
+     *
+     * @param vertexSource 顶点着色器字符串
      * @return
      */
     public static int getVertexShader(String vertexSource) {
@@ -58,9 +54,8 @@ public class ShaderHelper {
 
     /**
      * 通过片元着色器字符串得到片元着色器ID
-     * 
-     * @param fragmentSource
-     *            片元着色器字符串
+     *
+     * @param fragmentSource 片元着色器字符串
      * @return
      */
     public static int getFragmentShader(String fragmentSource) {
@@ -69,11 +64,9 @@ public class ShaderHelper {
 
     /**
      * 创建shader在gpu上运行的程序,从assets目录下获取
-     * 
-     * @param vertexSourcePath
-     *            顶点着色器字符串在assets目录下的路径
-     * @param fragmentSourcePath
-     *            片元着色器字符串在assets目录下的路径
+     *
+     * @param vertexSourcePath   顶点着色器字符串在assets目录下的路径
+     * @param fragmentSourcePath 片元着色器字符串在assets目录下的路径
      * @return
      */
     public static int getProgramFromAsset(Context context, MaterialAider material) {
@@ -84,11 +77,9 @@ public class ShaderHelper {
 
     /**
      * 创建shader在gpu上运行的程序,从assets目录下获取
-     * 
-     * @param vertexSourcePath
-     *            顶点着色器字符串在assets目录下的路径
-     * @param fragmentSourcePath
-     *            片元着色器字符串在assets目录下的路径
+     *
+     * @param vertexSourcePath   顶点着色器字符串在assets目录下的路径
+     * @param fragmentSourcePath 片元着色器字符串在assets目录下的路径
      * @return
      */
     public static int getProgramFromAsset(Context context, String materialPath) {
@@ -107,11 +98,9 @@ public class ShaderHelper {
 
     /**
      * 创建shader在gpu上运行的程序,从assets目录下获取
-     * 
-     * @param vertexSourcePath
-     *            顶点着色器字符串在assets目录下的路径
-     * @param fragmentSourcePath
-     *            片元着色器字符串在assets目录下的路径
+     *
+     * @param vertexSourcePath   顶点着色器字符串在assets目录下的路径
+     * @param fragmentSourcePath 片元着色器字符串在assets目录下的路径
      * @return
      */
     public static int getProgramFromAsset(Context context, String vertexSourcePath, String fragmentSourcePath) {
@@ -124,11 +113,9 @@ public class ShaderHelper {
 
     /**
      * 创建shader在gpu上运行的程序
-     * 
-     * @param vertexSource
-     *            顶点着色器字符串
-     * @param fragmentSource
-     *            片元着色器字符串
+     *
+     * @param vertexSource   顶点着色器字符串
+     * @param fragmentSource 片元着色器字符串
      * @return
      */
     public static int getProgram(String vertexSource, String fragmentSource) {
@@ -139,11 +126,9 @@ public class ShaderHelper {
 
     /**
      * 创建shader在gpu上运行的程序
-     * 
-     * @param vertexShader
-     *            顶点着色器的ID
-     * @param fragShader
-     *            片元着色器的ID
+     *
+     * @param vertexShader 顶点着色器的ID
+     * @param fragShader   片元着色器的ID
      * @return
      */
     public static int getProgram(int vertexShader, int fragShader) {
@@ -158,7 +143,7 @@ public class ShaderHelper {
         if (program == 0) {// 创建程序失败
             throw new RuntimeException("Error creating program.");
         } // 创建程序成功
-          // 加入着色器
+        // 加入着色器
         GLES20.glAttachShader(program, vertexShader);// 向程序中加入顶点着色器
         CommonUtils.checkGlError("glAttachShader vertexShader");
         GLES20.glAttachShader(program, fragShader);// 向程序中加入片元点着色器
@@ -169,8 +154,8 @@ public class ShaderHelper {
         GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linkStatus, 0); // 获取program的链接情况
         // 若链接失败则报错并删除程序
         if (linkStatus[0] != GLES20.GL_TRUE) {
-            LogHelper.d(TAG + "_ES20_ERROR", "Could not link program: ");
-            LogHelper.d(TAG + "_ES20_ERROR", GLES20.glGetProgramInfoLog(program));
+            LogHelper.d(TAG + "_ES20_ERROR", LogHelper.getThreadName() + "Could not link program: ");
+            LogHelper.d(TAG + "_ES20_ERROR", LogHelper.getThreadName() + GLES20.glGetProgramInfoLog(program));
             GLES20.glDeleteProgram(program);
             program = 0;
             throw new RuntimeException("Error creating program.");
