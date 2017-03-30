@@ -14,7 +14,7 @@ import android.widget.Toast;
  * 
  */
 public class LogHelper {
-    private static final String ROOT_TAG = "dandy";
+    private static final String ROOT_TAG = "dandydeng";
     private static boolean sIsLogDebug = true;
     private static String sRootTag = ROOT_TAG;
     private static boolean sIsToastDebug = true;
