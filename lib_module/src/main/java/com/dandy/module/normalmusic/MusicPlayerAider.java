@@ -118,6 +118,7 @@ public class MusicPlayerAider {
             return;
         }
         if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
             mCountDownTimer = null;
         }
         mCountDownTimer = new CountDownTimer(totalDuration, 10) {
