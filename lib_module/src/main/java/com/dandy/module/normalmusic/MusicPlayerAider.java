@@ -55,7 +55,7 @@ public class MusicPlayerAider {
         switch (musicInfo.sourceType) {
             case RAW:
                 startMusicFromRaws(context, musicInfo.rawId, loop, restartIgnorePath);
-                mCurMusicInfo=musicInfo;
+                mCurMusicInfo = musicInfo;
                 break;
             case FILE:
                 //TODO
@@ -97,7 +97,7 @@ public class MusicPlayerAider {
                 mIsPaused = false;
                 mMediaPlayer.setLooping(loop);// 设置是否循环
                 mMediaPlayer.start();
-                setProgress();// 设置进度监听
+                setProgress(mMediaPlayer.getDuration());// 设置进度监听
             }
         });
         try {
@@ -113,18 +113,21 @@ public class MusicPlayerAider {
     /**
      * 设置进度监听
      */
-    private void setProgress() {
+    private void setProgress(final int totalDuration) {
         if (mMusicProgressListener == null) {// 如果没有监听器，就不需要计数器了
             return;
         }
         if (mCountDownTimer != null) {
             mCountDownTimer = null;
         }
-        mCountDownTimer = new CountDownTimer(mMediaPlayer.getDuration(), 10) {
+        mCountDownTimer = new CountDownTimer(totalDuration, 10) {
             @Override
             public void onTick(long l) {
                 if (mMusicProgressListener != null) {// 将结果回调
                     mMusicProgressListener.onProgress(mMediaPlayer.getCurrentPosition());
+                }
+                if (mMusicProgressListener != null && totalDuration != -1) {
+                    mMusicProgressListener.onProgress(mMediaPlayer.getCurrentPosition()/((float) totalDuration));
                 }
             }
 
@@ -143,6 +146,9 @@ public class MusicPlayerAider {
         if (mMediaPlayer != null) {
             mMediaPlayer.pause();
             mIsPaused = true;
+        }
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
         }
     }
 
@@ -165,6 +171,9 @@ public class MusicPlayerAider {
         if (mMediaPlayer != null) {
             mMediaPlayer.start();
             mIsPaused = false;
+        }
+        if (mCountDownTimer != null) {
+            mCountDownTimer.start();
         }
     }
 

@@ -22,12 +22,26 @@ public class OrderMusicPlayerAider extends MusicPlayerAider {
         LOOP_ONE, LOOP_GROUP, RANDOM
     }
 
+    public OrderMusicPlayerAider() {
+        super();
+    }
+
+    public OrderMusicPlayerAider(IMusicProgressListener musicProgressListener) {
+        super(musicProgressListener);
+    }
+
     public void setOrderType(OrderType orderType) {
         mOrderType = orderType;
     }
 
     public void add(BaseMusicInfo musicInfo) {
         mMusicLists.add(musicInfo);
+    }
+
+    public void add(BaseMusicInfo... musicInfos) {
+        for (BaseMusicInfo musicInfo : musicInfos) {
+            mMusicLists.add(musicInfo);
+        }
     }
 
     public void add(int index, BaseMusicInfo musicInfo) {
@@ -39,6 +53,8 @@ public class OrderMusicPlayerAider extends MusicPlayerAider {
             int curIndex = mMusicLists.indexOf(mCurMusicInfo);
             int nextIndex = getNextIndex(curIndex);
             startMusic(context, mMusicLists.get(nextIndex), true, false);
+        } else {
+            startMusic(context, mMusicLists.get(0), true, false);
         }
     }
 
@@ -48,6 +64,10 @@ public class OrderMusicPlayerAider extends MusicPlayerAider {
             int nextIndex = getPreIndex(curIndex);
             startMusic(context, mMusicLists.get(nextIndex), true, false);
         }
+    }
+
+    public BaseMusicInfo getCurMusicInfo() {
+        return mCurMusicInfo;
     }
 
     private int getNextIndex(int curIndex) {

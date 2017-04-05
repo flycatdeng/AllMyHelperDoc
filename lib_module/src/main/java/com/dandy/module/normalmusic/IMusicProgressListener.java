@@ -9,4 +9,5 @@ package com.dandy.module.normalmusic;
 
 public interface IMusicProgressListener {
     void onProgress(int currentPosition);
+    void onProgress(float progress);
 }
