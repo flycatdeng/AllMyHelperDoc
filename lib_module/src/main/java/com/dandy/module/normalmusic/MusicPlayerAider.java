@@ -27,6 +27,7 @@ public class MusicPlayerAider {
     private String mPreSongPath = "";// 上一首歌曲的路劲（用于判断用于要播放的音乐是不是同一首歌）
     protected BaseMusicInfo mCurMusicInfo;
     protected BaseMusicInfo mDefaultMusicInfo;
+    protected boolean mIsMusicLoop=false;
     public MusicPlayerAider() {
 
     }
@@ -101,6 +102,7 @@ public class MusicPlayerAider {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 LogHelper.d(TAG, LogHelper.getThreadName());
+                mIsMusicLoop=loop;
                 mIsStarted = true;
                 mIsPaused = false;
                 mMediaPlayer.setLooping(loop);// 设置是否循环
@@ -122,6 +124,7 @@ public class MusicPlayerAider {
      * 设置进度监听
      */
     private void setProgress(final int totalDuration) {
+        LogHelper.d(TAG, LogHelper.getThreadName() );
         if (mMusicProgressListener == null) {// 如果没有监听器，就不需要计数器了
             return;
         }
@@ -142,7 +145,10 @@ public class MusicPlayerAider {
 
             @Override
             public void onFinish() {
-
+                LogHelper.d(TAG, LogHelper.getThreadName() );
+                if(mIsMusicLoop){
+                    setProgress(totalDuration);
+                }
             }
         };
         mCountDownTimer.start();
