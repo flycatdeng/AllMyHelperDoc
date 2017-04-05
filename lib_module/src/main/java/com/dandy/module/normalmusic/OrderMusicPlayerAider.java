@@ -66,10 +66,6 @@ public class OrderMusicPlayerAider extends MusicPlayerAider {
         }
     }
 
-    public BaseMusicInfo getCurMusicInfo() {
-        return mCurMusicInfo;
-    }
-
     private int getNextIndex(int curIndex) {
         if (mOrderType.equals(OrderType.LOOP_ONE)) {
             return curIndex;

@@ -26,7 +26,7 @@ public class MusicPlayerAider {
     private MediaPlayer mMediaPlayer = null;
     private String mPreSongPath = "";// 上一首歌曲的路劲（用于判断用于要播放的音乐是不是同一首歌）
     protected BaseMusicInfo mCurMusicInfo;
-
+    protected BaseMusicInfo mDefaultMusicInfo;
     public MusicPlayerAider() {
 
     }
@@ -38,6 +38,14 @@ public class MusicPlayerAider {
      */
     public MusicPlayerAider(IMusicProgressListener musicProgressListener) {
         mMusicProgressListener = musicProgressListener;
+    }
+
+    public void setDefaultMusicInfo(BaseMusicInfo defaultMusicInfo) {
+        mDefaultMusicInfo = defaultMusicInfo;
+    }
+
+    public BaseMusicInfo getCurMusicInfo() {
+        return mCurMusicInfo == null ? mDefaultMusicInfo : mCurMusicInfo;
     }
 
     /**
