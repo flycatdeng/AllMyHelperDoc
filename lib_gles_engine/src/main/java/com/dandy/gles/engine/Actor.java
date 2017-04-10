@@ -1,5 +1,5 @@
 package com.dandy.gles.engine;
 
-public class Actor {
+public class Actor extends Base{
 
 }

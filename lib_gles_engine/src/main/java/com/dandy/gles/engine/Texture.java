@@ -19,7 +19,7 @@ import java.nio.FloatBuffer;
  * Created by flycatdeng on 2017/3/28.
  */
 
-public class Texture extends Base {
+public class Texture extends Actor {
     private static final String TAG = "Texture";
     protected Context mContext;
     protected FloatBuffer mPositionBuffer;
