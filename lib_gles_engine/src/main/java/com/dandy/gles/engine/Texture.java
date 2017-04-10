@@ -1,12 +1,10 @@
 package com.dandy.gles.engine;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.opengl.GLES20;
 
 import com.dandy.helper.android.LogHelper;
 import com.dandy.helper.gles.ShaderHelper;
-import com.dandy.helper.gles.TextureHelper;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -21,13 +19,10 @@ import java.nio.FloatBuffer;
 
 public class Texture extends Actor {
     private static final String TAG = "Texture";
-    protected Context mContext;
     protected FloatBuffer mPositionBuffer;
     protected FloatBuffer mTexCoorBuffer;
     protected int aPositionHandler;
     protected int aTexcoorHandler;
-    protected int mProgramId;
-    protected int mTextureID = -1;
     protected int uSamplerTextureHandler;
     protected static final float POSITION[] = {
             -1.0f, -1.0f,
@@ -45,7 +40,7 @@ public class Texture extends Actor {
     protected int mVertexCount = 4;
 
     public Texture(Context context) {
-        mContext = context;
+        super(context);
         mPositionBuffer = ByteBuffer.allocateDirect(POSITION.length * 4)
                 // Floats can be in big-endian or little-endian order.
                 // We want the same as the native platform.
@@ -63,23 +58,18 @@ public class Texture extends Actor {
     }
 
     protected void onInit() {
-        mProgramId = ShaderHelper.getProgramFromAsset(mContext, "gles_engine/simple.vert", "gles_engine/simple.frag");
-        aPositionHandler = GLES20.glGetAttribLocation(mProgramId, "position");
-        uSamplerTextureHandler = GLES20.glGetUniformLocation(mProgramId, "inputImageTexture");
-        aTexcoorHandler = GLES20.glGetAttribLocation(mProgramId,
+        mProgramID = ShaderHelper.getProgramFromAsset(mContext, "gles_engine/simple.vert", "gles_engine/simple.frag");
+        aPositionHandler = GLES20.glGetAttribLocation(mProgramID, "position");
+        uSamplerTextureHandler = GLES20.glGetUniformLocation(mProgramID, "inputImageTexture");
+        aTexcoorHandler = GLES20.glGetAttribLocation(mProgramID,
                 "inputTextureCoordinate");
     }
 
     protected void onInitialized() {
     }
 
-    public final void destroy() {
-        mIsInitialized = false;
-        GLES20.glDeleteProgram(mProgramId);
-        onDestroy();
-    }
-
     protected void onDestroy() {
+        mIsInitialized = false;
     }
 
     public void onSurfaceChanged(int width, int height) {
@@ -90,8 +80,8 @@ public class Texture extends Actor {
 
     public void drawSelf() {
         LogHelper.d(TAG, LogHelper.getThreadName());
-        GLES20.glUseProgram(mProgramId);
         mRunOnDraw.runPendings();
+        GLES20.glUseProgram(mProgramID);
 
         GLES20.glVertexAttribPointer(aPositionHandler,//指定要修改的顶点属性的索引值,句柄
                 2,//指定每个顶点属性的组件数量。必须为1、2、3或者4。初始值为4。（如position是由3个（x,y,z）组成，而颜色是4个（r,g,b,a））,这里我们没有用到Z轴
@@ -105,7 +95,7 @@ public class Texture extends Actor {
         GLES20.glEnableVertexAttribArray(aTexcoorHandler);
 
         if (mTextureID != -1) {
-            LogHelper.d(TAG,LogHelper.getThreadName()+" mTextureID="+mTextureID);
+            LogHelper.d(TAG, LogHelper.getThreadName() + " mTextureID=" + mTextureID);
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);
             GLES20.glUniform1i(uSamplerTextureHandler, 0);
@@ -124,39 +114,4 @@ public class Texture extends Actor {
     protected void onDrawArraysAfter() {
     }
 
-    /**
-     * 设置纹理，回收Bitmap对象
-     *
-     * @param bitmap
-     */
-    public void setTexture(Bitmap bitmap) {
-        setTexture(bitmap, true);
-    }
-
-    /**
-     * 设置纹理
-     *
-     * @param bitmap     纹理Bitmap
-     * @param recycleBmp 是否回收该bitmap
-     */
-    public void setTexture(final Bitmap bitmap, final boolean recycleBmp) {
-        mRunOnDraw.addToPending(new Runnable() {
-            @Override
-            public void run() {
-                if (mTextureID == -1) {
-                    mTextureID = TextureHelper.initTextureID(bitmap, recycleBmp);
-                } else {
-                    GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-                    TextureHelper.changeTextureImage(bitmap);
-                }
-            }
-        });
-    }
-
-    /**
-     * 设置纹理
-     */
-    public void initTexture(int textureId) {
-        mTextureID = textureId;
-    }
 }
