@@ -1,7 +1,7 @@
 package com.dandy.module.livewallpaper;
 
 import com.dandy.helper.android.LogHelper;
-import com.dandy.helper.gles.CommonUtils;
+import com.dandy.helper.gles.GLCommonUtils;
 import com.dandy.helper.gles.IGLESRenderer;
 import com.dandy.module.gles.glsurfaceview.GLESSurfaceView;
 
@@ -81,7 +81,7 @@ public abstract class GLES2WallpaperService extends AWallpaperService {
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
-            boolean isSupportEs2 = CommonUtils.isSupportEs2(GLES2WallpaperService.this);
+            boolean isSupportEs2 = GLCommonUtils.isSupportEs2(GLES2WallpaperService.this);
             if (!isSupportEs2) {
                 return;
             }

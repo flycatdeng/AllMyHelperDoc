@@ -12,9 +12,9 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * @author dengchukun 2016年11月23日
  */
-public class CommonUtils {
+public class GLCommonUtils {
 
-    private static final String TAG = CommonUtils.class.getSimpleName();
+    private static final String TAG = GLCommonUtils.class.getSimpleName();
 
     /**
      * <pre>

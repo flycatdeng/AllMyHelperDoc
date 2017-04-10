@@ -145,9 +145,9 @@ public class ShaderHelper {
         } // 创建程序成功
         // 加入着色器
         GLES20.glAttachShader(program, vertexShader);// 向程序中加入顶点着色器
-        CommonUtils.checkGlError("glAttachShader vertexShader");
+        GLCommonUtils.checkGlError("glAttachShader vertexShader");
         GLES20.glAttachShader(program, fragShader);// 向程序中加入片元点着色器
-        CommonUtils.checkGlError("glAttachShader fragShader");
+        GLCommonUtils.checkGlError("glAttachShader fragShader");
         // 链接程序
         GLES20.glLinkProgram(program);
         int[] linkStatus = new int[1]; // 存放链接成功program数量的数组
