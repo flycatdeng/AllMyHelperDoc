@@ -16,6 +16,7 @@ import com.dandy.helper.gles.IGLESRenderer;
  * @author flycatdeng
  */
 public class GLESSurfaceView extends GLSurfaceView {
+    protected Context  mContext;
     private IGLESRenderer mGLESRenderer;
 
     public GLESSurfaceView(Context context) {
@@ -29,6 +30,7 @@ public class GLESSurfaceView extends GLSurfaceView {
     }
 
     private void init(Context context) {
+        mContext=context;
         this.setEGLContextClientVersion(2); // 设置使用OPENGL ES2.0
     }
 
@@ -45,9 +47,17 @@ public class GLESSurfaceView extends GLSurfaceView {
         setZOrderOnTop(true);
     }
 
+    /**
+     * <pre>
+     *     设置IGLESRenderer，该render包含了GLSurfaceView.Renderer的操作，再者就是包含了onResume和onPause等的调用
+     *     默认的渲染模式是RENDERMODE_WHEN_DIRTY
+     * </pre>
+     * @param renderer
+     */
     public void setRenderer(IGLESRenderer renderer) {
         mGLESRenderer = renderer;
         setRenderer(mRenderer); // 设置渲染器
+        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
     private Renderer mRenderer = new Renderer() {
