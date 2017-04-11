@@ -13,9 +13,18 @@ public class Actor extends Base {
     protected int mProgramID = -1;// 自定义渲染管线着色器程序id
     protected int mTextureID = -1;
     protected MatrixAider mMatrixAider = new MatrixAider();
+    private Actor mParentActor;
 
     public Actor(Context context) {
         mContext = context;
+    }
+
+    public Actor getParentActor() {
+        return mParentActor;
+    }
+
+    public void setParent(Actor parent) {
+        mParentActor = parent;
     }
 
     public final void destroy() {
