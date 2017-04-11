@@ -159,13 +159,20 @@ public class Object3D extends Actor {
             // 绑定纹理
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);
-            // 绘制加载的物体
-            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vCount);
         } else {
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            // 绘制加载的物体
-            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vCount);
         }
+
+        onDrawArraysPre();
+        // 绘制加载的物体
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vCount);
+        onDrawArraysAfter();
+    }
+
+    protected void onDrawArraysPre() {
+    }
+
+    protected void onDrawArraysAfter() {
     }
 
     /**
