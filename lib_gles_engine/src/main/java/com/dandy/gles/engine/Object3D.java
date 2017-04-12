@@ -4,6 +4,7 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import com.dandy.helper.android.FileHelper;
+import com.dandy.helper.android.LogHelper;
 import com.dandy.helper.gles.ObjLoadAider;
 import com.dandy.helper.gles.ShaderHelper;
 import com.dandy.helper.java.nio.ArrayToBufferHelper;
@@ -58,8 +59,17 @@ public class Object3D extends Actor {
     }
 
     public void loadFromAssets(final String filePath) {
-        ObjLoadAider obj = new ObjLoadAider(mContext, FileHelper.getInputStreamFromAsset(mContext, filePath));
-        loadFromObjLoadAider(obj);
+        ObjLoadAider obj = new ObjLoadAider(mContext, FileHelper.getInputStreamFromAsset(mContext, filePath), new ObjLoadAider.OnLoadListener() {
+            @Override
+            public void onLoadOK(ObjLoadAider aider) {
+                loadFromObjLoadAider(aider);
+            }
+
+            @Override
+            public void onLoadFailed(String failedMsg) {
+                LogHelper.d(TAG, LogHelper.getThreadName() + " failedMsg="+failedMsg);
+            }
+        });
     }
 
     public void setMaterialFromAssets(final String vertexFileName, final String fragmentFileName) {
@@ -79,6 +89,7 @@ public class Object3D extends Actor {
 
     // 初始化顶点坐标与着色数据的方法
     public void initVertexData(float[] vertices, float[] normals, float texCoors[]) {
+        LogHelper.d(TAG, LogHelper.getThreadName() + "count vertices=" + vertices.length + " normals=" + normals.length + " texCoors=" + texCoors.length);
         vCount = vertices.length / 3;
         mVertexBuffer = ArrayToBufferHelper.floatArrayToBuffer(vertices);
         mNormalBuffer = ArrayToBufferHelper.floatArrayToBuffer(normals);
@@ -190,7 +201,7 @@ public class Object3D extends Actor {
         mMatrixAider.setProjectFrustum(-ratio, ratio, -1, 1, 2, 100);
 //        MatrixState.setProjectOrtho(-ratio, ratio, -1, 1, 1, 10);
         // 调用此方法产生摄像机9参数位置矩阵
-        mMatrixAider.setCamera(true, 0f, 0.f, 30.0f, 0.0f, 0.0f, 0f, 0.0f, 1.0f, 0.0f);
+        mMatrixAider.setCamera(true, 0f, 0.f, 50.0f, 0.0f, 0.0f, 0f, 0.0f, 1.0f, 0.0f);
     }
 
     public void onSurfaceCreated() {
@@ -199,8 +210,13 @@ public class Object3D extends Actor {
         // 绕Y轴、Z轴旋转
 //        mMatrixAider.translate(-1f, 2f, -40f); // ch.obj 14.5f
 //        mMatrixAider.rotate(270f, 0, 1, 0);
-        mMatrixAider.translate(-0.5f, 0f, -18f); // ch.obj 14.5f
-        mMatrixAider.rotate(-90f, 0, 1, 0);
+//        mMatrixAider.translate(-0.5f, 0f, -18f); // ch.obj 14.5f
+//        mMatrixAider.rotate( 320f, 0, 1, 0);
+//        mMatrixAider.rotate( 180f, 0, 1, 0);
+//        mMatrixAider.rotate( -90f, 0, 1, 1);
+
+        mMatrixAider.translate(-1, 2f, -40f); // ch.obj 14.5f
+        mMatrixAider.rotate( -90, 0, 1, 0);
         mMatrixAider.setLightLocation(40, -10, 20);
     }
 }
