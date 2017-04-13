@@ -70,4 +70,18 @@ public class Actor extends Base {
     public void initTexture(int textureId) {
         mTextureID = textureId;
     }
+
+    boolean mIsSurfaceCreated = false;
+
+    public void onSurfaceCreated() {
+        mIsSurfaceCreated = true;
+    }
+
+    protected int mSurfaceWidth;
+    protected int mSurfaceHeight;
+
+    public void onSurfaceChanged(int width, int height) {
+        mSurfaceWidth = width;
+        mSurfaceHeight = height;
+    }
 }

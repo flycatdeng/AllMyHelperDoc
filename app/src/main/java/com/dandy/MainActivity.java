@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import com.dandy.demo.fbo.FBOView;
 import com.dandy.demo.wallpaper.timesensor.TimeSensorView;
+import com.dandy.gles.engine.Image;
+import com.dandy.gles.engine.Stage;
+import com.dandy.gles.engine.android.StageView;
 
 public class MainActivity extends Activity {
 
@@ -12,7 +15,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        TimeSensorView view=new TimeSensorView(this);
-        FBOView view=new FBOView(this);
+//        FBOView view=new FBOView(this);
+
+        StageView view=new StageView(this);
         setContentView(view);
+        Stage stage=view.getStage();
+
+        Image testImage=Image.createFromAssets(this,"time_sensor_6.jpg");
+        stage.add(testImage);
     }
 }
