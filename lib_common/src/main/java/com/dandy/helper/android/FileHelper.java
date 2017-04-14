@@ -114,18 +114,6 @@ public class FileHelper {
         return "";
     }
 
-    public static InputStream getInputStreamFromAsset(Context context, String fileAssetPath) {
-        LogHelper.d(TAG, LogHelper.getThreadName());
-        InputStream ins = null;
-        try {
-            ins = context.getAssets().open(fileAssetPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            LogHelper.d(TAG, LogHelper.getThreadName() + " e=" + e.getMessage());
-        }
-        return ins;
-    }
-
     /**
      * <pre>
      * 保存一张图片

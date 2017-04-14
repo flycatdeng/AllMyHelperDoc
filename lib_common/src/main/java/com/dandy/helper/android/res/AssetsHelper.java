@@ -1,6 +1,7 @@
-package com.dandy.helper.android;
+package com.dandy.helper.android.res;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -9,10 +10,10 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.dandy.helper.android.LogHelper;
 import com.dandy.helper.java.JFileHelper;
 
 /**
- * 
  * @author dengchukun 2016年11月18日
  */
 public class AssetsHelper {
@@ -22,19 +23,38 @@ public class AssetsHelper {
      * <pre>
      * 从Assets获取图片
      * </pre>
-     * 
+     *
      * @param fileName
      * @return
      */
     public static Bitmap getBitmap(Context context, String fileName) {
-        return BitmapFactory.decodeStream(FileHelper.getInputStreamFromAsset(context, fileName));
+        return BitmapFactory.decodeStream(getInputStream(context, fileName));
+    }
+
+    /**
+     * 得到文件流
+     *
+     * @param context
+     * @param fileAssetPath 文件名称
+     * @return
+     */
+    public static InputStream getInputStream(Context context, String fileAssetPath) {
+        LogHelper.d(TAG, LogHelper.getThreadName());
+        InputStream ins = null;
+        try {
+            ins = context.getAssets().open(fileAssetPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            LogHelper.d(TAG, LogHelper.getThreadName() + " e=" + e.getMessage());
+        }
+        return ins;
     }
 
     /**
      * <pre>
      * 得到assets目录下的文件的绝对路劲
      * </pre>
-     * 
+     *
      * @param assetsName
      * @return
      */
