@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.dandy.helper.java.ObjectHelper;
-import com.dandy.helper.java.StringHelper;
+import com.dandy.helper.java.basedata.StringHelper;
 
 import android.app.ActivityManager;
 import android.app.Service;
