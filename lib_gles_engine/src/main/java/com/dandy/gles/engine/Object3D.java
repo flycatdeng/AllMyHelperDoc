@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 
 import com.dandy.helper.android.FileHelper;
 import com.dandy.helper.android.LogHelper;
+import com.dandy.helper.android.res.AssetsHelper;
 import com.dandy.helper.gles.ObjLoadAider;
 import com.dandy.helper.gles.ShaderHelper;
 import com.dandy.helper.java.nio.ArrayToBufferHelper;
@@ -59,7 +60,7 @@ public class Object3D extends Actor {
     }
 
     public void loadFromAssets(final String filePath) {
-        ObjLoadAider obj = new ObjLoadAider(mContext, FileHelper.getInputStreamFromAsset(mContext, filePath), new ObjLoadAider.OnLoadListener() {
+        ObjLoadAider obj = new ObjLoadAider(mContext, AssetsHelper.getInputStream(mContext, filePath), new ObjLoadAider.OnLoadListener() {
             @Override
             public void onLoadOK(ObjLoadAider aider) {
                 loadFromObjLoadAider(aider);

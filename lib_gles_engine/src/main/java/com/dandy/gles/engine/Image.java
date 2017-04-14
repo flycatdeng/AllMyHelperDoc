@@ -3,7 +3,7 @@ package com.dandy.gles.engine;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.dandy.helper.android.AssetsHelper;
+import com.dandy.helper.android.res.AssetsHelper;
 
 public class Image extends Texture {
     private static final String TAG = "Image";
