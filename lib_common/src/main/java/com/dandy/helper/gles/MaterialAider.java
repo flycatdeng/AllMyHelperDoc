@@ -10,6 +10,7 @@ import android.text.TextUtils;
 
 import com.dandy.helper.android.FileHelper;
 import com.dandy.helper.android.LogHelper;
+import com.dandy.helper.android.res.AssetsHelper;
 
 /**
  * need the key word new to create a MaterialAid object
@@ -57,7 +58,7 @@ public class MaterialAider {
         LogHelper.d(TAG, LogHelper.getThreadName() + " name-" + name + " mContext=" + mContext);
         mMaterialName = name;
         try {
-            property.load(FileHelper.getInputStreamFromAsset(mContext, mMaterialName));
+            property.load(AssetsHelper.getInputStream(mContext, mMaterialName));
             int lastSep = name.lastIndexOf(File.separator);
             if (lastSep != -1) {
                 mMaterialDirectory = name.substring(0, lastSep);

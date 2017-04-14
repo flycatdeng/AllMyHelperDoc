@@ -9,6 +9,7 @@ import android.opengl.GLES20;
 
 import com.dandy.helper.android.FileHelper;
 import com.dandy.helper.android.LogHelper;
+import com.dandy.helper.android.res.AssetsHelper;
 
 @SuppressLint("NewApi")
 public class ShaderHelper {
@@ -87,7 +88,7 @@ public class ShaderHelper {
         String fragmentSourcePath = "origin.frag";
         Properties property = new Properties();
         try {
-            property.load(FileHelper.getInputStreamFromAsset(context, materialPath));
+            property.load(AssetsHelper.getInputStream(context, materialPath));
             vertexSourcePath = property.getProperty("VertextFile");
             fragmentSourcePath = property.getProperty("FragmentFile");
         } catch (IOException e) {

@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.opengl.Matrix;
 
 /**
- * 
  * @author dengchukun 2016年11月28日
  */
 @SuppressLint("NewApi")
@@ -20,7 +19,7 @@ public class MatrixAider {
     private float[] mMVPMatrix;// 最后起作用的总变换矩阵
     private FloatBuffer mCameraFB = null;
     private FloatBuffer mLightPositionFB = null;
-    private float[] mLightLocation = new float[] { 0, 0, 0};// 定位光光源位置
+    private float[] mLightLocation = new float[]{0, 0, 0};// 定位光光源位置
 
     public float[] getFinalMatrix() {
         mMVPMatrix = new float[16];
@@ -57,28 +56,30 @@ public class MatrixAider {
     }
 
     /**
+     * 缩放
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
+    public void scale(float x, float y, float z)//设置沿xyz轴缩放
+    {
+        Matrix.scaleM(mMMatrix, 0, x, y, z);
+    }
+
+    /**
      * 设置摄像机
-     * 
-     * @param needFBToShader
-     *            是否需要将相机数据传给shader
-     * @param cx
-     *            摄像机位置x
-     * @param cy
-     *            摄像机位置y
-     * @param cz
-     *            摄像机位置z
-     * @param tx
-     *            摄像机目标点x
-     * @param ty
-     *            摄像机目标点y
-     * @param tz
-     *            摄像机目标点z
-     * @param upx
-     *            摄像机UP向量X分量
-     * @param upy
-     *            摄像机UP向量Y分量
-     * @param upz
-     *            摄像机UP向量Z分量
+     *
+     * @param needFBToShader 是否需要将相机数据传给shader
+     * @param cx             摄像机位置x
+     * @param cy             摄像机位置y
+     * @param cz             摄像机位置z
+     * @param tx             摄像机目标点x
+     * @param ty             摄像机目标点y
+     * @param tz             摄像机目标点z
+     * @param upx            摄像机UP向量X分量
+     * @param upy            摄像机UP向量Y分量
+     * @param upz            摄像机UP向量Z分量
      */
     public void setCamera(boolean needFBToShader, float cx, float cy, float cz, float tx, float ty, float tz, float upx, float upy, float upz) {
         Matrix.setLookAtM(mVMatrix, 0, cx, cy, cz, tx, ty, tz, upx, upy, upz);
@@ -100,19 +101,13 @@ public class MatrixAider {
 
     /**
      * 设置透视投影参数
-     * 
-     * @param left
-     *            near面的left
-     * @param right
-     *            near面的right
-     * @param bottom
-     *            near面的bottom
-     * @param top
-     *            near面的top
-     * @param near
-     *            near面距离to view point
-     * @param far
-     *            far面距离to view point
+     *
+     * @param left   near面的left
+     * @param right  near面的right
+     * @param bottom near面的bottom
+     * @param top    near面的top
+     * @param near   near面距离to view point
+     * @param far    far面距离to view point
      */
     public void setProjectFrustum(float left, float right, float bottom, float top, float near, float far) {
         Matrix.frustumM(mProjMatrix, 0, left, right, bottom, top, near, far);
@@ -120,19 +115,13 @@ public class MatrixAider {
 
     /**
      * 设置正交投影参数
-     * 
-     * @param left
-     *            near面的left
-     * @param right
-     *            near面的right
-     * @param bottom
-     *            near面的bottom
-     * @param top
-     *            near面的top
-     * @param near
-     *            near面距离
-     * @param far
-     *            far面距离
+     *
+     * @param left   near面的left
+     * @param right  near面的right
+     * @param bottom near面的bottom
+     * @param top    near面的top
+     * @param near   near面距离
+     * @param far    far面距离
      */
     public void setProjectOrtho(float left, float right, float bottom, float top, float near, float far) {
         Matrix.orthoM(mProjMatrix, 0, left, right, bottom, top, near, far);
