@@ -22,7 +22,7 @@ public class JFileHelper {
 
     /**
      * 输入流转字节数组
-     * 
+     *
      * @param in
      * @return
      * @throws IOException
@@ -42,7 +42,7 @@ public class JFileHelper {
 
     /**
      * 关闭io流
-     * 
+     *
      * @param closeable
      */
     public static void closeIOStream(Closeable... closeable) {
@@ -64,7 +64,7 @@ public class JFileHelper {
 
     /**
      * 判断某个路径的文件是否存在
-     * 
+     *
      * @param path
      * @return
      */
@@ -78,36 +78,9 @@ public class JFileHelper {
     }
 
     /**
-     * 流转字符串方法
-     * 
-     * @param is
-     * @return
-     */
-    public static String convertStreamToString(InputStream is) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.defaultCharset()));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
-    }
-
-    /**
      * 返回该文件的大小，例如1.3GB
-     * 
-     * @param fileLength
-     *            文件长度，可以由File.getLength（）得到
+     *
+     * @param fileLength 文件长度，可以由File.getLength（）得到
      * @return
      */
     public static String formatFileLength(long fileLength) {
@@ -130,11 +103,9 @@ public class JFileHelper {
 
     /**
      * 复制文件
-     * 
-     * @param ins
-     *            该文件的输入流
-     * @param destFileFullPath
-     *            要存放的文件的路径
+     *
+     * @param ins              该文件的输入流
+     * @param destFileFullPath 要存放的文件的路径
      * @return
      */
     public static boolean copyFile(InputStream ins, String destFileFullPath) {
@@ -176,7 +147,7 @@ public class JFileHelper {
         LogHelper.d(TAG, LogHelper.getThreadName() + "srcFolderFullPath-" + srcFolderFullPath + " destFolderFullPath-" + destFolderFullPath);
         try {
             boolean success = (new File(destFolderFullPath)).mkdirs(); // 如果文件夹不存在
-                                                                       // 则建立新文件夹
+            // 则建立新文件夹
             if (!success) {
                 return false;
             }
@@ -268,17 +239,15 @@ public class JFileHelper {
         } catch (Exception e) {
         }
     }
-    
+
     /**
      * <pre>
      * 在某个大的文件夹中删除指定名称的所有文件，
      * 例如这个文件夹下不同的子文件夹下都有一个叫a.txt的文件，那么此时可以用这个方法来删除这个a.txt
      * </pre>
-     * 
-     * @param targetFolderFullPath
-     *            目标文件夹
-     * @param fileSimpleName
-     *            要删除的文件的名称（不要全路劲）
+     *
+     * @param targetFolderFullPath 目标文件夹
+     * @param fileSimpleName       要删除的文件的名称（不要全路劲）
      */
     public static void deleteAppointedFilesInDirectory(String targetFolderFullPath, String fileSimpleName) {
         File file = new File(targetFolderFullPath);
@@ -316,11 +285,9 @@ public class JFileHelper {
      * 在某个大的文件夹中删除指定名称的所有文件夹，
      * 例如这个文件夹下不同的子文件夹下都有一个叫.svn的文件夹，那么此时可以用这个方法来删除这个.svn夹
      * </pre>
-     * 
-     * @param targetFolderFullPath
-     *            目标文件夹
-     * @param directorySimpleName
-     *            要删除的文件夹的名称（不要全路劲）
+     *
+     * @param targetFolderFullPath 目标文件夹
+     * @param directorySimpleName  要删除的文件夹的名称（不要全路劲）
      */
     public static void deleteAppointedDirectorysInDirectory(String targetFolderFullPath, String directorySimpleName) {
         File file = new File(targetFolderFullPath);
@@ -355,9 +322,8 @@ public class JFileHelper {
 
     /**
      * 删除某个文件夹
-     * 
-     * @param targetFolderFullPath
-     *            要删除的文件夹的路径
+     *
+     * @param targetFolderFullPath 要删除的文件夹的路径
      * @return
      */
     public static boolean deleteFolder(String targetFolderFullPath) {
@@ -397,9 +363,8 @@ public class JFileHelper {
 
     /**
      * 删除某个文件
-     * 
-     * @param targetFileFullPath
-     *            要删除的文件的路径
+     *
+     * @param targetFileFullPath 要删除的文件的路径
      */
     public static void deleteFile(String targetFileFullPath) {
         File file = new File(targetFileFullPath);

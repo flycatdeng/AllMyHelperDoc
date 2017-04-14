@@ -1,7 +1,13 @@
 package com.dandy.helper.java;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +19,7 @@ public class StringHelper {
 
     /**
      * 是否为邮件地址
-     * 
+     *
      * @param emailAddress
      * @return
      */
@@ -37,7 +43,7 @@ public class StringHelper {
 
     /**
      * 是否手机号码
-     * 
+     *
      * @param phone
      * @return
      */
@@ -51,7 +57,7 @@ public class StringHelper {
 
     /**
      * 判断两个字符串是否字符内容一致（不区分大小写）
-     * 
+     *
      * @param src1
      * @param src2
      * @return
@@ -64,11 +70,11 @@ public class StringHelper {
      * <p>
      * Checks if the CharSequence contains only Unicode digits. A decimal point is not a Unicode digit and returns false.
      * </p>
-     * 
+     * <p>
      * <p>
      * {@code null} will return {@code false}. An empty CharSequence (length()=0) will return {@code false}.
      * </p>
-     * 
+     * <p>
      * <pre>
      * StringUtils.isNumeric(null)   = false
      * StringUtils.isNumeric(GNConfig.DEFAULT_VALUE)     = false
@@ -79,11 +85,9 @@ public class StringHelper {
      * StringUtils.isNumeric("12-3") = false
      * StringUtils.isNumeric("12.3") = false
      * </pre>
-     * 
-     * @param cs
-     *            the CharSequence to check, may be null
+     *
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if only contains digits, and is non-null
-     * @since 3.0 Changed signature from isNumeric(String) to isNumeric(CharSequence)
      * @since 3.0 Changed GNConfig.DEFAULT_VALUE to return false and not true
      */
     public static boolean isNumeric(CharSequence cs) {
@@ -103,11 +107,11 @@ public class StringHelper {
      * <p>
      * Checks if the CharSequence contains only Unicode letters or digits.
      * </p>
-     * 
+     * <p>
      * <p>
      * {@code null} will return {@code false}. An empty CharSequence (length()=0) will return {@code false}.
      * </p>
-     * 
+     * <p>
      * <pre>
      * StringUtils.isAlphanumeric(null)   = false
      * StringUtils.isAlphanumeric(GNConfig.DEFAULT_VALUE)     = false
@@ -117,11 +121,9 @@ public class StringHelper {
      * StringUtils.isAlphanumeric("ab2c") = true
      * StringUtils.isAlphanumeric("ab-c") = false
      * </pre>
-     * 
-     * @param cs
-     *            the CharSequence to check, may be null
+     *
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if only contains letters or digits, and is non-null
-     * @since 3.0 Changed signature from isAlphanumeric(String) to isAlphanumeric(CharSequence)
      * @since 3.0 Changed GNConfig.DEFAULT_VALUE to return false and not true
      */
     public static boolean isAlphanumeric(CharSequence cs) {
@@ -139,7 +141,7 @@ public class StringHelper {
 
     /**
      * 是不是字符
-     * 
+     *
      * @param cs
      * @return
      */
@@ -158,13 +160,13 @@ public class StringHelper {
 
     /**
      * get length of CharSequence
-     * 
+     * <p>
      * <pre>
      * length(null) = 0;
      * length(\"\") = 0;
      * length(\"abc\") = 3;
      * </pre>
-     * 
+     *
      * @param str
      * @return if str is null or empty, return 0, else return {@link CharSequence#length()}.
      */
@@ -174,13 +176,13 @@ public class StringHelper {
 
     /**
      * is null or its length is 0
-     * 
+     * <p>
      * <pre>
      * isEmpty(null) = true;
      * isEmpty(&quot;&quot;) = true;
      * isEmpty(&quot;  &quot;) = false;
      * </pre>
-     * 
+     *
      * @param str
      * @return if string is null or its size is 0, return true, else return false.
      */
@@ -190,7 +192,7 @@ public class StringHelper {
 
     /**
      * capitalize first letter
-     * 
+     * <p>
      * <pre>
      * capitalizeFirstLetter(null)     =   null;
      * capitalizeFirstLetter("")       =   "";
@@ -199,7 +201,7 @@ public class StringHelper {
      * capitalizeFirstLetter("ab")     =   "Ab"
      * capitalizeFirstLetter("Abc")    =   "Abc"
      * </pre>
-     * 
+     *
      * @param str
      * @return
      */
@@ -215,18 +217,17 @@ public class StringHelper {
 
     /**
      * encoded in utf-8
-     * 
+     * <p>
      * <pre>
      * utf8Encode(null)        =   null
      * utf8Encode("")          =   "";
      * utf8Encode("aa")        =   "aa";
      * utf8Encode("啊啊啊啊")   = "%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A";
      * </pre>
-     * 
+     *
      * @param str
      * @return
-     * @throws UnsupportedEncodingException
-     *             if an error occurs
+     * @throws UnsupportedEncodingException if an error occurs
      */
     public static String utf8Encode(String str) {
         if (!isEmpty(str) && str.getBytes().length != str.length()) {
@@ -241,7 +242,7 @@ public class StringHelper {
 
     /**
      * encoded in utf-8, if exception, return defultReturn
-     * 
+     *
      * @param str
      * @param defultReturn
      * @return
@@ -259,7 +260,7 @@ public class StringHelper {
 
     /**
      * get innerHtml from href
-     * 
+     * <p>
      * <pre>
      * getHrefInnerHtml(null)                                  = ""
      * getHrefInnerHtml("")                                    = ""
@@ -274,13 +275,13 @@ public class StringHelper {
      * getHrefInnerHtml("jack&lt;a&gt;innerHtml&lt;/a&gt;&lt;/a&gt;")                  = "innerHtml";
      * getHrefInnerHtml("&lt;a&gt;innerHtml1&lt;/a&gt;&lt;a&gt;innerHtml2&lt;/a&gt;")        = "innerHtml2";
      * </pre>
-     * 
+     *
      * @param href
      * @return <ul>
-     *         <li>if href is null, return ""</li>
-     *         <li>if not match regx, return source</li>
-     *         <li>return the last string that match regx</li>
-     *         </ul>
+     * <li>if href is null, return ""</li>
+     * <li>if not match regx, return source</li>
+     * <li>return the last string that match regx</li>
+     * </ul>
      */
     public static String getHrefInnerHtml(String href) {
         if (isEmpty(href)) {
@@ -296,9 +297,9 @@ public class StringHelper {
         return href;
     }
 
-/**
+    /**
      * process special char in html
-     * 
+     * <p>
      * <pre>
      * htmlEscapeCharsToString(null) = null;
      * htmlEscapeCharsToString("") = "";
@@ -309,7 +310,7 @@ public class StringHelper {
      * htmlEscapeCharsToString("mp3&quot;mp4") = "mp3\"mp4";
      * htmlEscapeCharsToString("mp3&lt;&gt;&amp;&quot;mp4") = "mp3\<\>&\"mp4";
      * </pre>
-     * 
+     *
      * @param source
      * @return
      */
@@ -319,14 +320,14 @@ public class StringHelper {
 
     /**
      * transform half width char to full width char
-     * 
+     * <p>
      * <pre>
      * fullWidthToHalfWidth(null) = null;
      * fullWidthToHalfWidth("") = "";
      * fullWidthToHalfWidth(new String(new char[] {12288})) = " ";
      * fullWidthToHalfWidth("！＂＃＄％＆) = "!\"#$%&";
      * </pre>
-     * 
+     *
      * @param s
      * @return
      */
@@ -352,14 +353,14 @@ public class StringHelper {
 
     /**
      * transform full width char to half width char
-     * 
+     * <p>
      * <pre>
      * halfWidthToFullWidth(null) = null;
      * halfWidthToFullWidth("") = "";
      * halfWidthToFullWidth(" ") = new String(new char[] {12288});
      * halfWidthToFullWidth("!\"#$%&) = "！＂＃＄％＆";
      * </pre>
-     * 
+     *
      * @param s
      * @return
      */
@@ -381,5 +382,57 @@ public class StringHelper {
             }
         }
         return new String(source);
+    }
+
+    /**
+     * 将字符串转换成流
+     *
+     * @param string 要转换的文字
+     * @return
+     */
+    public InputStream convertStringToStream(String string) {
+        InputStream ins = new ByteArrayInputStream(string.getBytes());
+        return ins;
+    }
+
+    /**
+     * 将字符串转换成流
+     *
+     * @param string  要转换的文字
+     * @param charset 指定要使用的字符集
+     * @return
+     */
+    public InputStream convertStringToStream(String string, Charset charset) {
+        if (charset == null) {
+            return convertStringToStream(string);
+        }
+        InputStream ins = new ByteArrayInputStream(string.getBytes(charset));
+        return ins;
+    }
+
+    /**
+     * 流转字符串方法
+     *
+     * @param is
+     * @return
+     */
+    public static String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.defaultCharset()));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
     }
 }
