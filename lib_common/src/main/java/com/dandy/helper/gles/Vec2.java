@@ -53,6 +53,9 @@ public class Vec2 {
     }
 
     public static Vec2 floatToVec(float[] floats) {
+        if (floats == null) {
+            throw new RuntimeException("floats array list can not be null");
+        }
         if (floats.length == 1) {
             return new Vec2(floats[0]);
         } else if (floats.length == 2) {
