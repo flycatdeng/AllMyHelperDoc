@@ -390,7 +390,7 @@ public class StringHelper {
      * @param string 要转换的文字
      * @return
      */
-    public InputStream convertStringToStream(String string) {
+    public static InputStream convertStringToStream(String string) {
         InputStream ins = new ByteArrayInputStream(string.getBytes());
         return ins;
     }
@@ -402,7 +402,7 @@ public class StringHelper {
      * @param charset 指定要使用的字符集
      * @return
      */
-    public InputStream convertStringToStream(String string, Charset charset) {
+    public static InputStream convertStringToStream(String string, Charset charset) {
         if (charset == null) {
             return convertStringToStream(string);
         }
