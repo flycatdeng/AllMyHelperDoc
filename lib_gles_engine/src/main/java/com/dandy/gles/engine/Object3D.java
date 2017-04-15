@@ -3,10 +3,8 @@ package com.dandy.gles.engine;
 import android.content.Context;
 import android.opengl.GLES20;
 
-import com.dandy.helper.android.FileHelper;
 import com.dandy.helper.android.LogHelper;
-import com.dandy.helper.android.res.AssetsHelper;
-import com.dandy.helper.gles.ObjLoadAider;
+import com.dandy.helper.gles.Obj3DLoadAider;
 import com.dandy.helper.gles.ShaderHelper;
 import com.dandy.helper.java.nio.ArrayToBufferHelper;
 
@@ -55,20 +53,23 @@ public class Object3D extends Actor {
         });
     }
 
-    public void loadFromObjLoadAider(ObjLoadAider helper) {
-        loadFromData(helper.getVertexXYZ(), helper.getNormalVectorXYZ(), helper.getTextureVertexST());
+    public void loadFromObjLoadResult(Obj3DLoadAider.LoadResult loadResult) {
+        loadFromData(loadResult.getVertexXYZ(), loadResult.getNormalVectorXYZ(), loadResult.getTextureVertexST());
     }
 
     public void loadFromAssets(final String filePath) {
-        ObjLoadAider obj = new ObjLoadAider(mContext, AssetsHelper.getInputStream(mContext, filePath), new ObjLoadAider.OnLoadListener() {
+        Obj3DLoadAider obj = new Obj3DLoadAider();
+        obj.loadFromAsset(mContext, filePath, new Obj3DLoadAider.OnLoadListener() {
             @Override
-            public void onLoadOK(ObjLoadAider aider) {
-                loadFromObjLoadAider(aider);
+            public void onLoadOK(Obj3DLoadAider.LoadResult loadResult) {
+//                loadFromData(aider);
+                loadFromObjLoadResult(loadResult);
+                LogHelper.d(TAG, LogHelper.getThreadName()+" loadResult="+loadResult.toString());
             }
 
             @Override
             public void onLoadFailed(String failedMsg) {
-                LogHelper.d(TAG, LogHelper.getThreadName() + " failedMsg="+failedMsg);
+                LogHelper.d(TAG, LogHelper.getThreadName() + " failedMsg=" + failedMsg);
             }
         });
     }
