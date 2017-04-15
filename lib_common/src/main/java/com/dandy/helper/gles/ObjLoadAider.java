@@ -19,11 +19,13 @@ import java.util.HashSet;
  *      注意，文件可能不带有法向量，那这个法向量就需要由各个点的向量叉乘之后得到法向量了 eg:
  *          f 4/4 5/5 6/6 不带法向量索引
  *          f 4/4/4 5/5/5 6/6/6 带有法向量索引
+ *          f 4 4 4 还有只带有顶点索引的
+ *          f 4//4 5//5 6//6  还有只带顶点和法向量的，不带有纹理坐标的
  * </pre>
  * <pre>
  *     部分资料参考自《Android 3D游戏开发技术宝典——OpenGL ES 2.0》，需要详解请购买正版书籍
  * </pre>
- *
+ * @deprecated
  * @author dengchukun 2016年12月12日
  */
 @SuppressLint("UseSparseArrays")
@@ -153,9 +155,9 @@ public class ObjLoadAider {
                             hmn.put(tempInxex, hsn);
                         }
                     } else {
-                        Vector3D vn0 = new Vector3D();
-                        Vector3D vn1 = new Vector3D();
-                        Vector3D vn2 = new Vector3D();
+                        Vec3 vn0 = new Vec3();
+                        Vec3 vn1 = new Vec3();
+                        Vec3 vn2 = new Vec3();
                         int indexNormal = Integer.parseInt(tempsa[1].split("/")[2]) - 1;
                         vn0.x = aln.get(3 * indexNormal);//x
                         vn0.y = aln.get(3 * indexNormal + 1);//y
@@ -168,8 +170,8 @@ public class ObjLoadAider {
                         vn2.x = aln.get(3 * indexNormal);
                         vn2.y = aln.get(3 * indexNormal + 1);
                         vn2.z = aln.get(3 * indexNormal + 2);
-//                        Vector3D averageNormal = vn0.normalize().add(vn1.normalize()).add(vn2.normalize());//直接求出这个平面三个顶点的法向量的平均向量，不不不，不能直接先单位化，应该先加和再单位化
-                        Vector3D averageNormal = vn0.add(vn1).add(vn2).normalize();
+//                        Vec3 averageNormal = vn0.normalize().add(vn1.normalize()).add(vn2.normalize());//直接求出这个平面三个顶点的法向量的平均向量，不不不，不能直接先单位化，应该先加和再单位化
+                        Vec3 averageNormal = vn0.add(vn1).add(vn2).normalize();
                         alnResult.add(averageNormal.x);
                         alnResult.add(averageNormal.y);
                         alnResult.add(averageNormal.z);
