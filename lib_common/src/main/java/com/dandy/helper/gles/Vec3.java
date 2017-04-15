@@ -39,11 +39,44 @@ public class Vec3 {
         return floatToVec(FloatHelper.normalize(this.vecToFloat()));
     }
 
+    /**
+     * 加上一个向量
+     *
+     * @param vec3
+     * @return
+     */
     public Vec3 add(Vec3 vec3) {
         Vec3 result = new Vec3();
         result.x = x + vec3.x;
         result.y = y + vec3.y;
         result.z = z + vec3.z;
+        return result;
+    }
+
+    /**
+     * 减去一个向量
+     *
+     * @param otherVec
+     * @return
+     */
+    public Vec3 minus(Vec3 otherVec) {
+        x -= otherVec.x;
+        y -= otherVec.y;
+        z -= otherVec.z;
+        return this;
+    }
+
+    /**
+     * 叉乘一个向量
+     *
+     * @param vec
+     * @return
+     */
+    public Vec3 crossProduct(Vec3 vec) {
+        Vec3 result = new Vec3();
+        result.x = y * vec.z - z * vec.y;
+        result.y = z * vec.x - x * vec.z;
+        result.z = x * vec.y - y * vec.x;
         return result;
     }
 
@@ -67,4 +100,5 @@ public class Vec3 {
             throw new RuntimeException("floats array list length must be 1 or 3");
         }
     }
+
 }
