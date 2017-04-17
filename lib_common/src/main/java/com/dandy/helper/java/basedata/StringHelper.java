@@ -5,6 +5,7 @@ import com.dandy.helper.java.ObjectHelper;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -437,5 +438,30 @@ public class StringHelper {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * <pre>
+     *     得到一个路劲的父文件夹
+     * </pre>
+     * @param curPath
+     * @return
+     */
+    public static String getParentDirectory(String curPath) {
+        if (curPath.endsWith(File.separator)) {
+            curPath = curPath.substring(0, curPath.length() - 2);//去除尾部的文件夹分隔符
+        }
+        int lastIndex = curPath.lastIndexOf(File.separator);
+        if (lastIndex == -1) {//找不到文件夹分隔符，说明这个路劲没有父文件夹
+            return "";
+        }
+        String result = curPath.substring(0, lastIndex);//
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String curPath = "sdcard/test";
+        String test = getParentDirectory(curPath);
+        LogHelper.d(TAG, "test dir=" + test);
     }
 }
