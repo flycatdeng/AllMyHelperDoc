@@ -9,6 +9,7 @@ import android.opengl.Matrix;
 
 /**
  * @author dengchukun 2016年11月28日
+ * @deprecated
  */
 @SuppressLint("NewApi")
 public class MatrixAider {
