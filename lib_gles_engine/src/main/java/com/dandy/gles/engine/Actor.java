@@ -6,9 +6,15 @@ import android.opengl.GLES20;
 
 import com.dandy.helper.gles.MatrixAider;
 import com.dandy.helper.gles.TextureHelper;
+import com.dandy.helper.java.PendingThreadAider;
 
 public class Actor extends Base {
     protected Context mContext;
+    /**
+     * GLSurfaceView的宽高
+     */
+    protected int mSurfaceWidth, mSurfaceHeight;
+    protected PendingThreadAider mRunOnDraw = new PendingThreadAider();
     protected int vCount = 0;
     protected int mProgramID = -1;// 自定义渲染管线着色器程序id
     protected int mTextureID = -1;
@@ -76,9 +82,6 @@ public class Actor extends Base {
     public void onSurfaceCreated() {
         mIsSurfaceCreated = true;
     }
-
-    protected int mSurfaceWidth;
-    protected int mSurfaceHeight;
 
     public void onSurfaceChanged(int width, int height) {
         mSurfaceWidth = width;

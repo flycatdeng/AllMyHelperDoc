@@ -2,7 +2,7 @@ package com.dandy.gles.engine;
 
 import android.content.Context;
 
-public class Stage extends Container {
+public class Stage extends Group {
 
     public Stage(Context context) {
         super(context);
@@ -10,7 +10,6 @@ public class Stage extends Container {
 
     @Override
     protected void onChildAdded(final Actor child) {
-        super.onChildAdded(child);
 //        child.requestRender();
         if (child.mIsSurfaceCreated) {
             return;
@@ -50,5 +49,14 @@ public class Stage extends Container {
     }
 
     public void onDrawFrame() {
+    }
+
+    /**
+     * Add the actors into this container.
+     *
+     * @param actors actors to add as children
+     */
+    public void add(Actor... actors) {
+        addChild(actors);
     }
 }
