@@ -2,14 +2,10 @@ package com.dandy.gles.engine;
 
 import android.content.Context;
 
-import com.dandy.helper.android.LogHelper;
-
 public class Stage extends Group {
     private static final String TAG = "Stage";
-//    private Image mImage;
     public Stage(Context context) {
         super(context);
-//        mImage = Image.createFromAssets(mContext, "time_sensor_6.jpg");
     }
 
     @Override
@@ -30,26 +26,18 @@ public class Stage extends Group {
     @Override
     public void onSurfaceCreated() {
         super.onSurfaceCreated();
-//        mImage.onSurfaceCreated();
     }
 
     @Override
     public void onSurfaceChanged(int width, int height) {
         super.onSurfaceChanged(width, height);
-//        mImage.onSurfaceChanged(width, height);
     }
 
     //    @Override
     public void onDrawFrame() {
-        LogHelper.d(TAG, LogHelper.getThreadName());
         for (final Actor child : mChildren) {
             child.onDrawFrame();
-//            child.drawSelf();
         }
-//        if (mImage != null) {
-//            mImage.drawSelf();
-//            mImage.onDrawFrame();
-//        }
     }
 
     /**
