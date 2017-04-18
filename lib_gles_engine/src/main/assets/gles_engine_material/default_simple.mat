@@ -3,6 +3,6 @@ vertex_source_file default_simple.vert     //顶点着色器文件：对应目�
 fragment_source_file default_simple.frag   //片元着色器文件：对应目录的文件名
 
 //属性
-property attribute vec3 aPosition;  //顶点位置
-property attribute vec3 aNormal;    //顶点法向量
-property attribute vec2 aTexCoor;    //顶点纹理坐标
+attribute vec3 aPosition;  //顶点位置
+attribute vec3 aNormal;    //顶点法向量
+attribute vec2 aTexCoor;    //顶点纹理坐标
