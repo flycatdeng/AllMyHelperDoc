@@ -3,6 +3,6 @@ vertex_source_file simple.vert     //顶点着色器文件：对应目录的文�
 fragment_source_file simple.frag   //片元着色器文件：对应目录的文件名
 
 //属性
-property attribute vec4 position
-property attribute vec4 inputTextureCoordinate
-property uniform sampler2D inputImageTexture
+attribute vec4 position
+attribute vec4 inputTextureCoordinate
+uniform sampler2D inputImageTexture
