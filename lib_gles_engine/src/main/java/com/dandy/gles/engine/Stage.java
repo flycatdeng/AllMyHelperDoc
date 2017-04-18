@@ -2,10 +2,14 @@ package com.dandy.gles.engine;
 
 import android.content.Context;
 
-public class Stage extends Group {
+import com.dandy.helper.android.LogHelper;
 
+public class Stage extends Group {
+    private static final String TAG = "Stage";
+//    private Image mImage;
     public Stage(Context context) {
         super(context);
+//        mImage = Image.createFromAssets(mContext, "time_sensor_6.jpg");
     }
 
     @Override
@@ -14,41 +18,38 @@ public class Stage extends Group {
         if (child.mIsSurfaceCreated) {
             return;
         }
-        child.mRunOnDraw.addToPending(new Runnable() {
+        child.runOnceBeforeDraw(new Runnable() {
             @Override
-            public void run() {
+            public void run() {//不用担心没有值，因为这个是在onDraw的时候才会调用的
                 child.onSurfaceCreated();
+                child.onSurfaceChanged(mSurfaceWidth, mSurfaceHeight);
             }
         });
     }
 
+    @Override
     public void onSurfaceCreated() {
         super.onSurfaceCreated();
-        for (final Actor child : mChildren) {
-            if (child.mIsSurfaceCreated) {
-                continue;
-            }
-            child.mRunOnDraw.addToPending(new Runnable() {
-                @Override
-                public void run() {
-                    child.onSurfaceCreated();
-                }
-            });
-        }
+//        mImage.onSurfaceCreated();
     }
 
-    public void onSurfaceChanged(final int width, final int height) {
-        for (final Actor child : mChildren) {
-            child.mRunOnDraw.addToPending(new Runnable() {
-                @Override
-                public void run() {
-                    child.onSurfaceChanged(width, height);
-                }
-            });
-        }
+    @Override
+    public void onSurfaceChanged(int width, int height) {
+        super.onSurfaceChanged(width, height);
+//        mImage.onSurfaceChanged(width, height);
     }
 
+    //    @Override
     public void onDrawFrame() {
+        LogHelper.d(TAG, LogHelper.getThreadName());
+        for (final Actor child : mChildren) {
+            child.onDrawFrame();
+//            child.drawSelf();
+        }
+//        if (mImage != null) {
+//            mImage.drawSelf();
+//            mImage.onDrawFrame();
+//        }
     }
 
     /**
@@ -58,5 +59,13 @@ public class Stage extends Group {
      */
     public void add(Actor... actors) {
         addChild(actors);
+    }
+
+    @Override
+    public void onDestroy() {
+        for (final Actor child : mChildren) {
+            child.onDestroy();
+        }
+        mChildren.clear();
     }
 }

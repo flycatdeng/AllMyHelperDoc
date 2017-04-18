@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
-import com.dandy.helper.android.AssetsHelper;
 import com.dandy.helper.gles.ShaderHelper;
 import com.dandy.helper.gles.TextureHelper;
 import com.dandy.helper.java.PendingThreadAider;

@@ -4,21 +4,28 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 
-import com.dandy.helper.gles.MatrixAider;
+import com.dandy.helper.android.LogHelper;
+import com.dandy.helper.gles.IMVPMatrixOperation;
+import com.dandy.helper.gles.MVPMatrixAider;
+import com.dandy.helper.gles.Material;
 import com.dandy.helper.gles.TextureHelper;
+import com.dandy.helper.gles.Vec3;
 import com.dandy.helper.java.PendingThreadAider;
 
-public class Actor extends Base {
+public class Actor implements IMVPMatrixOperation {
+    private static final String TAG = "Actor";
     protected Context mContext;
     /**
      * GLSurfaceView的宽高
      */
     protected int mSurfaceWidth, mSurfaceHeight;
-    protected PendingThreadAider mRunOnDraw = new PendingThreadAider();
-    protected int vCount = 0;
+    protected PendingThreadAider mRunOnceOnDraw = new PendingThreadAider();
+    protected PendingThreadAider mRunOnceBeforeDraw = new PendingThreadAider();
+    protected MVPMatrixAider mMatrixAider = new MVPMatrixAider();
+    protected Material mMaterial;
+    protected int mVertexCount = 0;
     protected int mProgramID = -1;// 自定义渲染管线着色器程序id
     protected int mTextureID = -1;
-    protected MatrixAider mMatrixAider = new MatrixAider();
     private Actor mParentActor;
 
     public Actor(Context context) {
@@ -33,12 +40,8 @@ public class Actor extends Base {
         mParentActor = parent;
     }
 
-    public final void destroy() {
-        GLES20.glDeleteProgram(mProgramID);
-        onDestroy();
-    }
-
     protected void onDestroy() {
+        GLES20.glDeleteProgram(mProgramID);
     }
 
     /**
@@ -57,7 +60,7 @@ public class Actor extends Base {
      * @param recycleBmp 是否回收该bitmap
      */
     public void setTexture(final Bitmap bitmap, final boolean recycleBmp) {
-        mRunOnDraw.addToPending(new Runnable() {
+        runOnceBeforeDraw(new Runnable() {
             @Override
             public void run() {
                 if (mTextureID == -1) {
@@ -81,10 +84,100 @@ public class Actor extends Base {
 
     public void onSurfaceCreated() {
         mIsSurfaceCreated = true;
+        mMatrixAider.setInitStack();
     }
 
-    public void onSurfaceChanged(int width, int height) {
-        mSurfaceWidth = width;
-        mSurfaceHeight = height;
+    public void onDrawFrame() {
+
+    }
+
+    public void setMaterialFromAssets(final String materialFile) {
+        runOnceBeforeDraw(new Runnable() {
+            @Override
+            public void run() {
+                LogHelper.d(TAG, "setMaterialFromAssets materialFile=" + materialFile);
+                mMaterial = new Material(mContext, materialFile);
+                mProgramID = mMaterial.getProgramID();
+            }
+        });
+    }
+    protected int getMaterialHandler(String propertyName) {
+        if (mMaterial != null) {
+            return mMaterial.getHandlerByPropertyName(propertyName);
+        }
+        return -1;
+    }
+    /**
+     * 界面变更尺寸，需要重新设置投影矩阵和相机位置
+     *
+     * @param width
+     * @param height
+     */
+    public void onSurfaceChanged(final int width, final int height) {
+        runOnceBeforeDraw(new Runnable() {
+            @Override
+            public void run() {
+                LogHelper.d(TAG, "onSurfaceChanged" );
+                mSurfaceWidth = width;
+                mSurfaceHeight = height;
+            }
+        });
+
+//        // 计算GLSurfaceView的宽高比
+//        float ratio = (float) width / height;
+//        // 调用此方法计算产生透视投影矩阵
+//        setProjectFrustum(-ratio, ratio, -1, 1, 2, 100);
+////        MatrixState.setProjectOrtho(-ratio, ratio, -1, 1, 1, 10);
+//        // 调用此方法产生摄像机9参数位置矩阵
+//        setCamera(0f, 0.f, 50.0f, 0.0f, 0.0f, 0f, 0.0f, 1.0f, 0.0f);
+    }
+
+    protected void runOnceBeforeDraw(final Runnable runnable) {
+        mRunOnceBeforeDraw.addToPending(runnable);
+    }
+
+    public void runOnceOnDraw(Runnable runnable) {
+        mRunOnceOnDraw.addToPending(runnable);
+    }
+
+    //*************************************************IMVPMatrixOperation 实现*****************************************************************************************************************************************
+    @Override
+    public void setTranslate(float x, float y, float z) {
+        mMatrixAider.translate(x, y, z);
+    }
+
+    @Override
+    public void setTranslate(Vec3 offset) {
+        mMatrixAider.translate(offset.x, offset.y, offset.z);
+    }
+
+    @Override
+    public void setRotation(float angle, float x, float y, float z) {
+        mMatrixAider.rotate(angle, x, y, z);
+    }
+
+    @Override
+    public void setScale(float x, float y, float z) {
+        mMatrixAider.scale(x, y, z);
+    }
+
+    @Override
+    public void setScale(Vec3 scale) {
+        mMatrixAider.scale(scale.x, scale.y, scale.z);
+    }
+
+    @Override
+    public void setCamera(float cx, float cy, float cz, float tx, float ty, float tz, float upx, float upy, float upz) {
+        mMatrixAider.setCamera(cx, cy, cz, tx, ty, tz, upx, upy, upz);
+    }
+
+    @Override
+    public void setProjectFrustum(float left, float right, float bottom, float top, float near, float far) {
+        mMatrixAider.setProjectFrustum(left, right, bottom, top, near, far);
+    }
+
+    @Override
+    public void setProjectOrtho(float left, float right, float bottom, float top, float near, float far) {
+        mMatrixAider.setProjectOrtho(left, right, bottom, top, near, far);
     }
 }

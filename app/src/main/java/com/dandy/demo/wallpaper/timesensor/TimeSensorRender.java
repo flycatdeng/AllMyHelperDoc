@@ -2,7 +2,7 @@ package com.dandy.demo.wallpaper.timesensor;
 
 import android.content.Context;
 
-import com.dandy.helper.android.AssetsHelper;
+import com.dandy.helper.android.res.AssetsHelper;
 import com.dandy.module.gles.simple.SimpleGLESRenderer;
 import com.dandy.module.gles.simple.SimpleTexture;
 

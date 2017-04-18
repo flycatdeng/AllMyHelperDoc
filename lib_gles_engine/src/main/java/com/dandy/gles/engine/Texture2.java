@@ -4,7 +4,6 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import com.dandy.helper.android.LogHelper;
-import com.dandy.helper.gles.ShaderHelper;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -17,13 +16,15 @@ import java.nio.FloatBuffer;
  * Created by flycatdeng on 2017/3/28.
  */
 
-public class Texture extends Actor {
+public class Texture2 extends Actor2 {
     private static final String TAG = "Texture";
     protected FloatBuffer mPositionBuffer;
     protected FloatBuffer mTexCoorBuffer;
     protected int aPositionHandler;
     protected int aTexcoorHandler;
     protected int uSamplerTextureHandler;
+    protected String mDefaultMaterialName = "gles_engine/simple.mat";
+
     protected static final float POSITION[] = {
             -1.0f, -1.0f,
             1.0f, -1.0f,
@@ -38,8 +39,8 @@ public class Texture extends Actor {
     };
     protected boolean mIsInitialized;
 
-    public Texture(Context context) {
-        super(context);
+    public Texture2(Context context) {
+//        super(context);
         mPositionBuffer = ByteBuffer.allocateDirect(POSITION.length * 4)
                 // Floats can be in big-endian or little-endian order.
                 // We want the same as the native platform.
@@ -51,65 +52,17 @@ public class Texture extends Actor {
     }
 
     public void init() {
-//        runOnceBeforeDraw(new Runnable() {
-//            @Override
-//            public void run() {
-//                onInit();
-//                mIsInitialized = true;
-//                onInitialized();
-//            }
-//        });
-
     }
 
-    protected void onInit() {
-        LogHelper.d(TAG,LogHelper.getThreadName());
-        mProgramID = ShaderHelper.getProgramFromAsset(mContext, "gles_engine/simple.vert", "gles_engine/simple.frag");
-        aPositionHandler = GLES20.glGetAttribLocation(mProgramID, "position");
-        uSamplerTextureHandler = GLES20.glGetUniformLocation(mProgramID, "inputImageTexture");
-        aTexcoorHandler = GLES20.glGetAttribLocation(mProgramID,
-                "inputTextureCoordinate");
-        LogHelper.d(TAG,LogHelper.getThreadName()+" mProgramID="+mProgramID+" aPositionHandler="+aPositionHandler+" uSamplerTextureHandler="+uSamplerTextureHandler+" aTexcoorHandler="+aTexcoorHandler);
-    }
-
-    protected void onInitialized() {
-    }
-
-    protected void onDestroy() {
+    public void onDestroy() {
         mIsInitialized = false;
     }
 
-//    @Override
-//    public void setMaterialFromAssets(String materialFile) {
-//        LogHelper.d(TAG,LogHelper.getThreadName());
-////        super.setMaterialFromAssets(materialFile);
-//        runOnceBeforeDraw(new Runnable() {
-//            @Override
-//            public void run() {
-//                mProgramID = ShaderHelper.getProgramFromAsset(mContext, "gles_engine/simple.vert", "gles_engine/simple.frag");
-//                aPositionHandler = GLES20.glGetAttribLocation(mProgramID, "position");
-//                uSamplerTextureHandler = GLES20.glGetUniformLocation(mProgramID, "inputImageTexture");
-//                aTexcoorHandler = GLES20.glGetAttribLocation(mProgramID,
-//                        "inputTextureCoordinate");
-//                LogHelper.d(TAG,LogHelper.getThreadName()+" mProgramID="+mProgramID+" aPositionHandler="+aPositionHandler+" uSamplerTextureHandler="+uSamplerTextureHandler+" aTexcoorHandler="+aTexcoorHandler);
-//                mIsInitialized = true;
-//            }
-//        });
-//
-//    }
-
     @Override
-    public void onDrawFrame() {
-        super.onDrawFrame();
-        drawSelf();
-    }
-
-    public void drawSelf() {
+    protected void onEnableVertexAttribArray() {
+//        GLES20.glClearColor(1.0f,0.0f,1.0f,1.0f);
         LogHelper.d(TAG, LogHelper.getThreadName());
-        mRunOnceBeforeDraw.runPendings();
-        GLES20.glUseProgram(mProgramID);
-
-        aPositionHandler=getMaterialHandler("position");
+        aPositionHandler=mMaterial.getHandlerByPropertyName("position");
         GLES20.glVertexAttribPointer(aPositionHandler,//指定要修改的顶点属性的索引值,句柄
                 2,//指定每个顶点属性的组件数量。必须为1、2、3或者4。初始值为4。（如position是由3个（x,y,z）组成，而颜色是4个（r,g,b,a））,这里我们没有用到Z轴
                 GLES20.GL_FLOAT, //指定数组中每个组件的数据类型
@@ -119,29 +72,37 @@ public class Texture extends Actor {
         );
         GLES20.glEnableVertexAttribArray(aPositionHandler);
 
-        aTexcoorHandler=getMaterialHandler("inputTextureCoordinate");
+        aTexcoorHandler=mMaterial.getHandlerByPropertyName("inputTextureCoordinate");
         GLES20.glVertexAttribPointer(aTexcoorHandler, 2, GLES20.GL_FLOAT, false, 0, mTexCoorBuffer);
         GLES20.glEnableVertexAttribArray(aTexcoorHandler);
+    }
 
-        uSamplerTextureHandler=getMaterialHandler("inputImageTexture");
+    @Override
+    protected void onDrawOthers() {
+        LogHelper.d(TAG, LogHelper.getThreadName());
         if (mTextureID != -1) {
             LogHelper.d(TAG, LogHelper.getThreadName() + " mTextureID=" + mTextureID);
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);
+
+            uSamplerTextureHandler=mMaterial.getHandlerByPropertyName("inputImageTexture");
             GLES20.glUniform1i(uSamplerTextureHandler, 0);
         }
-
-        onDrawArraysPre();
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, mVertexCount);
-        GLES20.glDisableVertexAttribArray(aPositionHandler);
-        GLES20.glDisableVertexAttribArray(aTexcoorHandler);
-        onDrawArraysAfter();
     }
 
     protected void onDrawArraysPre() {
+        LogHelper.d(TAG, LogHelper.getThreadName());
+    }
+
+    @Override
+    protected void onDisableVertexAttribArray() {
+        LogHelper.d(TAG, LogHelper.getThreadName());
+        GLES20.glDisableVertexAttribArray(aPositionHandler);
+        GLES20.glDisableVertexAttribArray(aTexcoorHandler);
     }
 
     protected void onDrawArraysAfter() {
+        LogHelper.d(TAG, LogHelper.getThreadName());
     }
 
 }

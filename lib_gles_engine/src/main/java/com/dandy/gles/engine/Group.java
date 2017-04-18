@@ -1,6 +1,7 @@
 package com.dandy.gles.engine;
 
 import android.content.Context;
+import android.opengl.GLES20;
 
 import com.dandy.helper.android.LogHelper;
 
@@ -47,4 +48,22 @@ public abstract class Group extends Actor {
      * @param child
      */
     protected abstract void onChildAdded(Actor child);
+
+//    @Override
+//    protected void onEnableVertexAttribArray() {
+//    }
+//
+//    @Override
+//    protected void onDrawOthers() {
+//    }
+//
+//    protected void onDrawArraysPre() {
+//    }
+//
+//    @Override
+//    protected void onDisableVertexAttribArray() {
+//    }
+//
+//    protected void onDrawArraysAfter() {
+//    }
 }

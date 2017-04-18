@@ -52,6 +52,7 @@ public class FBORender extends SimpleGLESRenderer {
         if (mImage != null) {
             mImage.initTexture(mFBOAider.getFBOTextureId());
             mImage.drawSelf();
+//            mImage.onDrawFrame();
         }
     }
 }

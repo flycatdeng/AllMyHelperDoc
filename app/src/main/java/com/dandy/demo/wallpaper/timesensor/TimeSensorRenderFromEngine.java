@@ -3,9 +3,7 @@ package com.dandy.demo.wallpaper.timesensor;
 import android.content.Context;
 
 import com.dandy.gles.engine.Image;
-import com.dandy.helper.android.AssetsHelper;
 import com.dandy.module.gles.simple.SimpleGLESRenderer;
-import com.dandy.module.gles.simple.SimpleTexture;
 
 /**
  * <pre>
@@ -21,13 +19,14 @@ public class TimeSensorRenderFromEngine extends SimpleGLESRenderer {
     public TimeSensorRenderFromEngine(Context context) {
         super(context);
         mContext = context;
+        mImage = Image.createFromAssets(mContext, "time_sensor_6.jpg");
     }
 
     @Override
     public void onSurfaceCreated() {
         super.onSurfaceCreated();
-        mImage = Image.createFromAssets(mContext, "time_sensor_6.jpg");
-        mImage.init();
+//        mImage.init();
+        mImage.onSurfaceCreated();
     }
 
     @Override
@@ -41,6 +40,7 @@ public class TimeSensorRenderFromEngine extends SimpleGLESRenderer {
         super.onDrawFrame();
         if (mImage != null) {
             mImage.drawSelf();
+//            mImage.onDrawFrame();
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.dandy.gles.engine.android;
 
 import android.content.Context;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
+import com.dandy.gles.engine.Image;
 import com.dandy.gles.engine.Stage;
 import com.dandy.helper.gles.IGLESRenderer;
 import com.dandy.helper.gles.eglconfigchooser.AntiAliasingEGLConfigChooser;
@@ -21,7 +23,6 @@ import javax.microedition.khronos.opengles.GL10;
 public class StageView extends GLSurfaceView {
     protected Context mContext;
     protected Stage mStage;
-
     public StageView(Context context) {
         super(context);
         init(context);
@@ -36,7 +37,7 @@ public class StageView extends GLSurfaceView {
         mContext = context;
         mStage = new Stage(context);
         this.setEGLContextClientVersion(2); // 设置使用OPENGL ES2.0
-        setEGLConfigChooser(new AntiAliasingEGLConfigChooser());
+//        setEGLConfigChooser(new AntiAliasingEGLConfigChooser());
         setRenderer(mRenderer); // 设置渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
@@ -60,6 +61,7 @@ public class StageView extends GLSurfaceView {
 
         @Override
         public void onDrawFrame(GL10 gl) {
+            // 清除深度缓冲与颜色缓冲
             mStage.onDrawFrame();
         }
     };
@@ -77,6 +79,7 @@ public class StageView extends GLSurfaceView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        mStage.onDestroy();
     }
 
 }
