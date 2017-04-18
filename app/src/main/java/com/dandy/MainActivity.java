@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.dandy.gles.engine.Image;
+import com.dandy.gles.engine.SimpleImage;
 import com.dandy.gles.engine.Stage;
 import com.dandy.gles.engine.android.StageView;
 
@@ -21,8 +22,8 @@ public class MainActivity extends Activity {
         setContentView(view);
         Stage stage=view.getStage();
 
-        Image testImage=Image.createFromAssets(this,"time_sensor_6.jpg");
-        testImage.setMaterialFromAssets("gles_engine/simple.mat");
+        SimpleImage testImage=SimpleImage.createFromAssets(this,"time_sensor_6.jpg");
+        testImage.setMaterialFromAssets("gles_engine_simple_image/simple.mat");
 //        testImage.init();
         stage.add(testImage);
         view.requestRender();

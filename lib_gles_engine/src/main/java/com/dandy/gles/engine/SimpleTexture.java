@@ -5,16 +5,19 @@ import android.opengl.GLES20;
 
 import com.dandy.helper.android.LogHelper;
 import com.dandy.helper.java.nio.ArrayToBufferHelper;
+
 import java.nio.FloatBuffer;
 
 /**
  * <pre>
- *  直接显示纹理的方式，无需借助Matrix的一种方式，因为这里没有用到坐标变换
+ *      直接显示纹理的方式，无需借助Matrix的一种方式，因为这里没有用到坐标变换
  * </pre>
- * Created by flycatdeng on 2017/3/28.
+ * Created by flycatdeng on 2017/4/18.
+ * Email:dengchukun@qq.com
+ * Wechat:flycatdeng
  */
 
-public class Texture extends Actor {
+public class SimpleTexture extends Actor {
     private static final String TAG = "Texture";
     protected FloatBuffer mPositionBuffer;
     protected FloatBuffer mTexCoorBuffer;
@@ -35,11 +38,11 @@ public class Texture extends Actor {
     };
     protected boolean mIsInitialized;
 
-    public Texture(Context context) {
+    public SimpleTexture(Context context) {
         super(context);
         mPositionBuffer = ArrayToBufferHelper.floatArrayToBuffer(POSITION);
         mTexCoorBuffer = ArrayToBufferHelper.floatArrayToBuffer(TEXTURE);
-        mDefaultMaterialName = "gles_engine/simple.mat";
+        mDefaultMaterialName = "gles_engine_simple_image/simple.mat";
     }
 
     protected void onDestroy() {
@@ -89,5 +92,4 @@ public class Texture extends Actor {
 
     protected void onDrawArraysAfter() {
     }
-
 }

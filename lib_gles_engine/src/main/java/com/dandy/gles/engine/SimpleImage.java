@@ -5,21 +5,30 @@ import android.graphics.Bitmap;
 
 import com.dandy.helper.android.res.AssetsHelper;
 
-public class Image extends Texture {
-    private static final String TAG = "Image";
+/**
+ * <pre>
+ *      直接显示纹理的方式，无需借助Matrix的一种方式，因为这里没有用到坐标变换
+ * </pre>
+ * Created by flycatdeng on 2017/4/18.
+ * Email:dengchukun@qq.com
+ * Wechat:flycatdeng
+ */
 
-    private Image(Context context) {
+public class SimpleImage extends SimpleTexture {
+    private static final String TAG = "SimpleImage";
+
+    private SimpleImage(Context context) {
         super(context);
         mVertexCount = 4;
     }
 
-    public static Image createEmptyImage(Context context) {
-        Image image = new Image(context);
+    public static SimpleImage createEmptyImage(Context context) {
+        SimpleImage image = new SimpleImage(context);
         return image;
     }
 
-    public static Image createFromAssets(Context context, String assetName) {
-        Image image = new Image(context);
+    public static SimpleImage createFromAssets(Context context, String assetName) {
+        SimpleImage image = new SimpleImage(context);
         image.setImageFromAsset(assetName);
         return image;
     }
