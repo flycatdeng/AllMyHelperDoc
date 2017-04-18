@@ -63,7 +63,7 @@ public class FBOAider {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);//神了，这句话还不能放在上两句之前
         /******Rendering Code*******/
 //        texture.onDrawFrame();
-        texture.drawSelf();
+        texture.onDrawFrame();
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
     }
 }

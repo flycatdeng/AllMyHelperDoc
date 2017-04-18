@@ -12,7 +12,7 @@ import com.dandy.helper.gles.TextureHelper;
 import com.dandy.helper.gles.Vec3;
 import com.dandy.helper.java.PendingThreadAider;
 
-public class Actor implements IMVPMatrixOperation {
+public abstract class Actor implements IMVPMatrixOperation {
     private static final String TAG = "Actor";
     protected Context mContext;
     /**
@@ -26,7 +26,9 @@ public class Actor implements IMVPMatrixOperation {
     protected int mVertexCount = 0;
     protected int mProgramID = -1;// 自定义渲染管线着色器程序id
     protected int mTextureID = -1;
+    protected String mDefaultMaterialName = "gles_engine_material/default_simple.mat";
     private Actor mParentActor;
+    private boolean mIsMaterialSetFromOutside = false;
 
     public Actor(Context context) {
         mContext = context;
@@ -88,10 +90,30 @@ public class Actor implements IMVPMatrixOperation {
     }
 
     public void onDrawFrame() {
+        if (mProgramID == -1 && !mIsMaterialSetFromOutside) {
+            setMaterialFromAssets(mDefaultMaterialName);
+        }
+        mRunOnceBeforeDraw.runPendings();
+        if (mProgramID == -1) {//如果没有设置材质，则使用默认的材质,双重保证
+            setMaterialFromAssets(mDefaultMaterialName);
+        }
+        if (mProgramID == -1) {
+            throw new RuntimeException("mProgramID == -1");
+        }
+        GLES20.glUseProgram(mProgramID);
+        mRunOnceOnDraw.runPendings();
+        onDraw();
+    }
 
+    /**
+     * 绘制，此时的mProgramID已经得到了，而且已经调用了GLES20.glUseProgram(mProgramID);
+     * 子类需要重写这个方法去实现自己的绘制
+     */
+    protected void onDraw() {
     }
 
     public void setMaterialFromAssets(final String materialFile) {
+        mIsMaterialSetFromOutside = true;
         runOnceBeforeDraw(new Runnable() {
             @Override
             public void run() {
@@ -101,12 +123,14 @@ public class Actor implements IMVPMatrixOperation {
             }
         });
     }
+
     protected int getMaterialHandler(String propertyName) {
         if (mMaterial != null) {
             return mMaterial.getHandlerByPropertyName(propertyName);
         }
         return -1;
     }
+
     /**
      * 界面变更尺寸，需要重新设置投影矩阵和相机位置
      *
@@ -117,7 +141,7 @@ public class Actor implements IMVPMatrixOperation {
         runOnceBeforeDraw(new Runnable() {
             @Override
             public void run() {
-                LogHelper.d(TAG, "onSurfaceChanged" );
+                LogHelper.d(TAG, "onSurfaceChanged");
                 mSurfaceWidth = width;
                 mSurfaceHeight = height;
             }
