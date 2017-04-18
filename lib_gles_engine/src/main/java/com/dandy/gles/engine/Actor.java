@@ -5,14 +5,14 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 
 import com.dandy.helper.android.LogHelper;
-import com.dandy.helper.gles.IMVPMatrixOperation;
+import com.dandy.helper.gles.IActorMatrixOperation;
 import com.dandy.helper.gles.MVPMatrixAider;
 import com.dandy.helper.gles.Material;
 import com.dandy.helper.gles.TextureHelper;
 import com.dandy.helper.gles.Vec3;
 import com.dandy.helper.java.PendingThreadAider;
 
-public abstract class Actor implements IMVPMatrixOperation {
+public class Actor implements IActorMatrixOperation {
     private static final String TAG = "Actor";
     protected Context mContext;
     /**
@@ -164,7 +164,7 @@ public abstract class Actor implements IMVPMatrixOperation {
         mRunOnceOnDraw.addToPending(runnable);
     }
 
-    //*************************************************IMVPMatrixOperation 实现*****************************************************************************************************************************************
+    //*************************************************IActorMatrixOperation 实现*****************************************************************************************************************************************
     @Override
     public void setTranslate(float x, float y, float z) {
         mMatrixAider.translate(x, y, z);
@@ -203,5 +203,25 @@ public abstract class Actor implements IMVPMatrixOperation {
     @Override
     public void setProjectOrtho(float left, float right, float bottom, float top, float near, float far) {
         mMatrixAider.setProjectOrtho(left, right, bottom, top, near, far);
+    }
+
+    @Override
+    public float[] getMVPMatrix() {
+        return mMatrixAider.getMVPMatrix();
+    }
+
+    @Override
+    public float[] getModelMatrix() {
+        return mMatrixAider.getModelMatrix();
+    }
+
+    @Override
+    public float[] getViewMatrix() {
+        return mMatrixAider.getViewMatrix();
+    }
+
+    @Override
+    public float[] getProjectMatrix() {
+        return mMatrixAider.getProjectMatrix();
     }
 }

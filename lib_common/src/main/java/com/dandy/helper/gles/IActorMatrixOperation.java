@@ -9,7 +9,7 @@ package com.dandy.helper.gles;
  * Wechat:flycatdeng
  */
 
-public interface IMVPMatrixOperation {
+public interface IActorMatrixOperation {
     /**
      * <pre>
      * 设置沿xyz轴移动
@@ -83,4 +83,12 @@ public interface IMVPMatrixOperation {
      * @param far    far面距离
      */
     public void setProjectOrtho(float left, float right, float bottom, float top, float near, float far);
+
+    public float[] getMVPMatrix();
+
+    public float[] getModelMatrix();
+
+    public float[] getViewMatrix();
+
+    public float[] getProjectMatrix();
 }

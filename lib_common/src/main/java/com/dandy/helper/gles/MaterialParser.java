@@ -38,7 +38,7 @@ public class MaterialParser {
                 } else if (typeFlag.equals("fragment_source_file")) {
                     fragmentFileName = tempsa[1];//eg. fragment_source_file default_simple.frag
                 } else if (typeFlag.equals("attribute") || typeFlag.equals("uniform")) {
-                    mHandlerNameAuthority.put(tempsa[3], typeFlag);//attribute/uniform
+                    mHandlerNameAuthority.put(tempsa[2], typeFlag);//attribute/uniform
                 }
             }
         } catch (Exception e) {

@@ -66,21 +66,6 @@ public class ShaderHelper {
     /**
      * 创建shader在gpu上运行的程序,从assets目录下获取
      *
-     * @param vertexSourcePath   顶点着色器字符串在assets目录下的路径
-     * @param fragmentSourcePath 片元着色器字符串在assets目录下的路径
-     * @return
-     */
-    public static int getProgramFromAsset(Context context, MaterialAider material) {
-        String vertexSourcePath = material.getMaterialVertexName();
-        String fragmentSourcePath = material.getMaterialFragmentName();
-        return getProgramFromAsset(context, vertexSourcePath, fragmentSourcePath);
-    }
-
-    /**
-     * 创建shader在gpu上运行的程序,从assets目录下获取
-     *
-     * @param vertexSourcePath   顶点着色器字符串在assets目录下的路径
-     * @param fragmentSourcePath 片元着色器字符串在assets目录下的路径
      * @return
      */
     public static int getProgramFromAsset(Context context, String materialPath) {
