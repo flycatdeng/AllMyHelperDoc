@@ -37,8 +37,8 @@ public class MaterialParser {
                     vertexFileName = tempsa[1];//eg. vertex_source_file default_simple.vert
                 } else if (typeFlag.equals("fragment_source_file")) {
                     fragmentFileName = tempsa[1];//eg. fragment_source_file default_simple.frag
-                } else if (typeFlag.equals("property")) {
-                    mHandlerNameAuthority.put(tempsa[3], tempsa[1]);//tempsa[1]attribute/uniform
+                } else if (typeFlag.equals("attribute") || typeFlag.equals("uniform")) {
+                    mHandlerNameAuthority.put(tempsa[3], typeFlag);//attribute/uniform
                 }
             }
         } catch (Exception e) {
