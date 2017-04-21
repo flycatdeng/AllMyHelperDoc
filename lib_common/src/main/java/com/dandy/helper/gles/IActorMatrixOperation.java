@@ -15,21 +15,26 @@ public interface IActorMatrixOperation {
      * 设置沿xyz轴移动
      * </pre>
      */
-    public void setTranslate(float x, float y, float z);
+    public void translate(float x, float y, float z);
 
     /**
      * <pre>
      * 设置沿xyz轴移动
      * </pre>
      */
-    public void setTranslate(Vec3 offset);
+    public void translate(Vec3 offset);
+
+    /**
+     * 设置最终移动量
+     */
+    public void setTranslation(float x, float y, float z);
 
     /**
      * <pre>
      * 设置绕xyz轴转动
      * </pre>
      */
-    public void setRotation(float angle, float x, float y, float z);
+    public void rotate(float angle, float x, float y, float z);
 
     /**
      * 缩放
@@ -38,12 +43,12 @@ public interface IActorMatrixOperation {
      * @param y
      * @param z
      */
-    public void setScale(float x, float y, float z);
+    public void scale(float x, float y, float z);
 
     /**
      * 缩放
      */
-    public void setScale(Vec3 scale);
+    public void scale(Vec3 scale);
 
     /**
      * 设置摄像机

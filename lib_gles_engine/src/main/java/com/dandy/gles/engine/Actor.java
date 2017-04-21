@@ -35,6 +35,7 @@ public class Actor implements IGLActor, IActorMatrixOperation {
 
     public Actor(Context context) {
         mContext = context;
+        mMatrixAider.setInitStack();//一定要在构造器初始化的时候就初始化矩阵帮助类，否则可能在其他地方调用setTranslate等方法时如果没有初始化，那就无效了
     }
 
     public Actor getParentActor() {
@@ -124,7 +125,6 @@ public class Actor implements IGLActor, IActorMatrixOperation {
     @Override
     public void onSurfaceCreated() {
         mIsSurfaceCreated = true;
-        mMatrixAider.setInitStack();
     }
 
     /**
@@ -192,28 +192,37 @@ public class Actor implements IGLActor, IActorMatrixOperation {
     }
 
     //*************************************************IActorMatrixOperation 实现*****************************************************************************************************************************************
+   private Vec3 mPreLocation=new Vec3();
     @Override
-    public void setTranslate(float x, float y, float z) {
+    public void translate( float x,float y, float z) {
         mMatrixAider.translate(x, y, z);
+        mPreLocation=mPreLocation.add(x,y,z);
     }
 
     @Override
-    public void setTranslate(Vec3 offset) {
+    public void translate(Vec3 offset) {
         mMatrixAider.translate(offset.x, offset.y, offset.z);
+        mPreLocation = mPreLocation.add(offset);
     }
 
     @Override
-    public void setRotation(float angle, float x, float y, float z) {
+    public void setTranslation(float x, float y, float z) {
+        mMatrixAider.translate(x - mPreLocation.x, y - mPreLocation.y, z - mPreLocation.z);
+        mPreLocation = new Vec3(x, y, z);
+    }
+
+    @Override
+    public void rotate(float angle, float x, float y, float z) {
         mMatrixAider.rotate(angle, x, y, z);
     }
 
     @Override
-    public void setScale(float x, float y, float z) {
+    public void scale(float x, float y, float z) {
         mMatrixAider.scale(x, y, z);
     }
 
     @Override
-    public void setScale(Vec3 scale) {
+    public void scale(Vec3 scale) {
         mMatrixAider.scale(scale.x, scale.y, scale.z);
     }
 

@@ -45,7 +45,7 @@ public class StageView extends GLSurfaceView {
             }
         });
         this.setEGLContextClientVersion(2); // 设置使用OPENGL ES2.0
-//        setEGLConfigChooser(new AntiAliasingEGLConfigChooser());
+        setEGLConfigChooser(new AntiAliasingEGLConfigChooser());
         setRenderer(mRenderer); // 设置渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }

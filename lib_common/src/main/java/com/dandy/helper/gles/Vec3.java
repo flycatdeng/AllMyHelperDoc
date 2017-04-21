@@ -101,4 +101,11 @@ public class Vec3 {
         }
     }
 
+    public Vec3 add(float x, float y, float z) {
+        Vec3 result = new Vec3();
+        result.x+=x;
+        result.y+=y;
+        result.y+=y;
+        return result;
+    }
 }

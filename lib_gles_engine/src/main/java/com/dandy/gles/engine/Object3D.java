@@ -208,7 +208,7 @@ public class Object3D extends Actor {
     @Override
     public void onSurfaceCreated() {
         super.onSurfaceCreated();
-        //打开深度检测
+        //打开深度检测,记得在draw的时候要GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT）；
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         //打开背面剪裁
         GLES20.glEnable(GLES20.GL_CULL_FACE);
@@ -224,6 +224,7 @@ public class Object3D extends Actor {
      */
     public void onSurfaceChanged(int width, int height) {
         super.onSurfaceChanged(width, height);
+//        translate(-2,2,-40f);
         GLES20.glViewport(0, 0, width, height);
         // 计算GLSurfaceView的宽高比
         float ratio = (float) width / height;
