@@ -45,7 +45,7 @@ public class SimpleTexture extends Actor {
         mDefaultMaterialName = "gles_engine_simple_image/simple.mat";
     }
 
-    protected void onDestroy() {
+    public void onDestroy() {
         mIsInitialized = false;
         super.onDestroy();
     }

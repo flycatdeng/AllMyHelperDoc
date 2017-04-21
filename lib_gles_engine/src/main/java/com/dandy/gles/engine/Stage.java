@@ -11,7 +11,9 @@ public class Stage extends Group {
     @Override
     protected void onChildAdded(final Actor child) {
 //        child.requestRender();
-        if (child.mIsSurfaceCreated) {
+        child.setRequestRenderListener(getRequestRenderListener());
+        child.requestRender();
+        if (child.isSurfaceCreated()) {
             return;
         }
         child.runOnceBeforeDraw(new Runnable() {
@@ -21,16 +23,6 @@ public class Stage extends Group {
                 child.onSurfaceChanged(mSurfaceWidth, mSurfaceHeight);
             }
         });
-    }
-
-    @Override
-    public void onSurfaceCreated() {
-        super.onSurfaceCreated();
-    }
-
-    @Override
-    public void onSurfaceChanged(int width, int height) {
-        super.onSurfaceChanged(width, height);
     }
 
     //    @Override

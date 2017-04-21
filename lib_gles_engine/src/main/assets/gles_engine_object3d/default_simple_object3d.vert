@@ -1,14 +1,14 @@
 precision highp float;
 
-uniform mat4 uMVPMatrix; //总变换矩阵
-uniform mat4 uMMatrix; //变换矩阵
-uniform vec3 uLightLocation;	//光源位置
-uniform vec3 uCamera;	//摄像机位置
-
 attribute vec3 aPosition;  //顶点位置
-attribute vec3 aNormal;    //顶点法向量
 attribute vec2 aTexCoor;    //顶点纹理坐标
 
+uniform mat4 uMVPMatrix; //总变换矩阵
+uniform mat4 uModelMatrix; //变换矩阵
+uniform mat4 uViewMatrix; //相机位置矩阵
+uniform mat4 uModelViewMatrix; //变换矩阵
+
+//用于传递给片元着色器的变量
 varying highp vec2 vTextureCoord;
 
 void main()

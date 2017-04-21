@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 
 import com.dandy.gles.engine.Image;
 import com.dandy.gles.engine.Stage;
+import com.dandy.helper.gles.IGLActor;
 import com.dandy.helper.gles.IGLESRenderer;
 import com.dandy.helper.gles.eglconfigchooser.AntiAliasingEGLConfigChooser;
 
@@ -23,6 +24,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class StageView extends GLSurfaceView {
     protected Context mContext;
     protected Stage mStage;
+
     public StageView(Context context) {
         super(context);
         init(context);
@@ -36,6 +38,12 @@ public class StageView extends GLSurfaceView {
     private void init(Context context) {
         mContext = context;
         mStage = new Stage(context);
+        mStage.setRequestRenderListener(new IGLActor.RequestRenderListener() {
+            @Override
+            public void onRequestRenderCalled() {
+                requestRender();
+            }
+        });
         this.setEGLContextClientVersion(2); // 设置使用OPENGL ES2.0
 //        setEGLConfigChooser(new AntiAliasingEGLConfigChooser());
         setRenderer(mRenderer); // 设置渲染器

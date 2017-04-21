@@ -55,7 +55,8 @@ public class Material {
     }
 
     public int getHandlerByPropertyName(String propertyName) {
-        return mPropertyNameHandlerMap.get(propertyName);
+        Integer result = mPropertyNameHandlerMap.get(propertyName);
+        return result == null ? -1 : result;
     }
 
     public int getProgramID() {

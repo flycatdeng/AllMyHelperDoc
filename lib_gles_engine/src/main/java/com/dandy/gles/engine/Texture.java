@@ -42,7 +42,7 @@ public class Texture extends Actor {
         mDefaultMaterialName = "gles_engine/simple.mat";
     }
 
-    protected void onDestroy() {
+    public void onDestroy() {
         mIsInitialized = false;
         super.onDestroy();
     }

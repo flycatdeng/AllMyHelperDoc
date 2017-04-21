@@ -90,5 +90,7 @@ public interface IActorMatrixOperation {
 
     public float[] getViewMatrix();
 
+    public float[] getModelViewMatrix();
+
     public float[] getProjectMatrix();
 }

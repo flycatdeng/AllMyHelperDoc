@@ -43,7 +43,7 @@ public class MVPMatrixAider {
      *
      * @return
      */
-    public float[] getMVMatrix() {
+    public float[] getModelViewMatrix() {
         Matrix.multiplyMM(mMVMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);//左乘，mViewMatrix左乘mModelMatrix得到mMVMatrix
         return mMVMatrix;
     }
