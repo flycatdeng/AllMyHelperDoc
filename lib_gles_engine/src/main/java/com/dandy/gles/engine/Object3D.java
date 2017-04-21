@@ -233,7 +233,7 @@ public class Object3D extends Actor {
 //        MatrixState.setProjectOrtho(-ratio, ratio, -1, 1, 1, 10);
         // 调用此方法产生摄像机9参数位置矩阵
         setCamera(0f, 0.f, 30.0f, 0.0f, 0.0f, 0f, 0.0f, 1.0f, 0.0f);
-        setLightLocation(40, -10, 20);
+        setLightLocation(40, -40, 40);
     }
 
     private Vec3 mCameraLocation = new Vec3();
