@@ -36,7 +36,6 @@ public class MVPMatrixAider {
      * @return
      */
     public float[] getMVPMatrix() {
-        LogHelper.d(TAG,"mModelMatrix="+ Arrays.toString(mModelMatrix));
         Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);//左乘，mViewMatrix左乘mModelMatrix的结果给mMVPMatrix，其实就是mMVMatrix
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectMatrix, 0, mMVPMatrix, 0);//mMVMatrix左乘mProjectMatrix 得到mMVPMatrix
         return mMVPMatrix;
@@ -103,7 +102,6 @@ public class MVPMatrixAider {
      * </pre>
      */
     public void translate(float x, float y, float z) {
-        LogHelper.d(TAG, LogHelper.getThreadName() + " x=" + x + " y=" + y + "z=" + z);
         Matrix.translateM(mModelMatrix, 0, x, y, z);
     }
 
