@@ -16,17 +16,26 @@ import android.hardware.SensorManager;
  * 2.onResume的时候注册感应监听，onPause的时候注销监听
  * 3.通过DataCallback来回调处理过的值
  * </pre>
- * 
+ *
  * @author dengchukun 2016年12月9日
  */
 @SuppressLint("NewApi")
 public class GravitySensorAider implements SensorEventListener {
     private static final String TAG = GravitySensorAider.class.getSimpleName();
+    /**
+     * <pre>
+     * 数据回调，当改变的数据值差达到阈值才回调，不要使用我师父说的在onSensorChanged中乘以200什么的以便灵敏，其实可以直接将结果写给DATA_CALLBACK_CHANGED_THRESHOLD
+     * 否则你乘以一个很大的数再去比较，本身就带有很多的计算量啊，每次onSensorChanged都多了几次相乘的计算量啊
+     * </pre>
+     */
+    private static float DATA_CALLBACK_CHANGED_THRESHOLD = 0.001f;
     private SensorManager mSensorManager;
     private Sensor mSensor;
     // Flare variables
     private float mOldX = 0.0f;
     private float mOldY = 0.0f;
+    private float mPreX = -1f, mPreY = -1f;
+    private float mDataCallbackChangedThreshold = DATA_CALLBACK_CHANGED_THRESHOLD;
 
     public GravitySensorAider(Context context) {
         init(context);
@@ -51,6 +60,8 @@ public class GravitySensorAider implements SensorEventListener {
         if (mSensorManager != null) {
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
         }
+        mPreX = -1f;
+        mPreY = -1f;
     }
 
     @Override
@@ -91,11 +102,14 @@ public class GravitySensorAider implements SensorEventListener {
 
         // setting the center better
         tmpY += 0.0;
-
+        if (Math.abs(mPreX - mOldX) < mDataCallbackChangedThreshold && Math.abs(mPreY - mOldY) < mDataCallbackChangedThreshold) {
+            return;
+        }
         if (mDataCallback != null) {
             mDataCallback.onDataCallback(mOldX, mOldY);
         }
-
+        mPreX = mOldX;
+        mPreY = mOldY;
 //        float sensor_x = event.values[0] / 8.0f;
 //        if (sensor_x > 2.f)
 //            sensor_x = 2.f;
@@ -115,7 +129,7 @@ public class GravitySensorAider implements SensorEventListener {
 
     /**
      * 用于将优化之后的x y坐标回调
-     * 
+     *
      * @author dengchukun 2016年12月9日
      */
     public interface DataCallback {
@@ -126,5 +140,9 @@ public class GravitySensorAider implements SensorEventListener {
 
     public void setDataCallback(DataCallback callback) {
         mDataCallback = callback;
+    }
+
+    public void setDataCallbackChangedThreshold(float thresholdValue) {
+        mDataCallbackChangedThreshold = thresholdValue;
     }
 }
