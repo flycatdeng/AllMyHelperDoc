@@ -7,8 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.dandy.helper.java.ObjectHelper;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -151,7 +149,7 @@ public class ImageHelper {
      * @return
      */
     public static byte[] bitmapToByteArray(Bitmap bitmap) {
-        if (ObjectHelper.isNull(bitmap)) {
+        if (bitmap == null) {
             return null;
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
