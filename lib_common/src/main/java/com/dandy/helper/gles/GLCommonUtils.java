@@ -41,8 +41,32 @@ public class GLCommonUtils {
     public static void checkGlError(String op) {
         int error;
         while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
-            LogHelper.d("ES20_ERROR", LogHelper.getThreadName() + op + ": glError " + error);
-            throw new RuntimeException(op + ": glError " + error);
+            LogHelper.d("ES20_ERROR", LogHelper.getThreadName() + op + ": glError " + error + " errString=" + errString(error));
+            throw new RuntimeException(op + ": glError " + error + " errString=" + errString(error));
+        }
+    }
+
+    public static String errString(int errorCode) {
+        switch (errorCode) {
+            case GLES20.GL_NO_ERROR:
+                return "No error has been recorded.";
+            case GLES20.GL_INVALID_ENUM:
+                return "An unacceptable value is specified for an enumerated argument.";
+            case GLES20.GL_INVALID_VALUE:
+                return "A numeric argument is out of range.";
+            case GLES20.GL_INVALID_OPERATION:
+                return "The specified operation is not allowed in the current state.";
+            case GLES20.GL_INVALID_FRAMEBUFFER_OPERATION:
+                return "The command is trying to render to or read from the framebuffer" +
+                        " while the currently bound framebuffer is not framebuffer complete (i.e." +
+                        " the return value from glCheckFramebufferStatus is not" +
+                        " GL_FRAMEBUFFER_COMPLETE).";
+            case GLES20.GL_OUT_OF_MEMORY:
+                return "There is not enough memory left to execute the command." +
+                        " The state of the GL is undefined, except for the state" +
+                        " of the error flags, after this error is recorded.";
+            default:
+                return "UNKNOW ERROR";
         }
     }
 
