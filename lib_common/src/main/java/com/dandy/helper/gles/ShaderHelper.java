@@ -147,6 +147,8 @@ public class ShaderHelper {
             throw new RuntimeException("Error creating program.");
         }
         LogHelper.d(TAG, LogHelper.getThreadName() + "program ID=" + program);
+        GLES20.glDeleteShader(vertexShader);
+        GLES20.glDeleteShader(fragShader);
         return program;
     }
 
