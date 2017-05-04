@@ -121,6 +121,11 @@ public class Object3D extends Actor {
     public void onSurfaceChanged(int width, int height) {
         super.onSurfaceChanged(width, height);
         GLES20.glViewport(0, 0, width, height);
+        float ratio = (float) width / height;
+        // 调用此方法计算产生透视投影矩阵
+        setProjectFrustum(-ratio, ratio, -1, 1, 2, 1111);
+        // 调用此方法产生摄像机9参数位置矩阵
+        setCamera(0f,0f, 50.0f, 0.0f, 0.0f, 0f, 0.0f, 1.0f, 0.0f);
     }
 
     @Override
