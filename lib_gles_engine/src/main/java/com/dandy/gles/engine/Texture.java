@@ -72,7 +72,6 @@ public class Texture extends Actor {
             uSamplerTextureHandler = getMaterialHandler("inputImageTexture");
         }
         if (mTextureID != -1) {
-            LogHelper.d(TAG, LogHelper.getThreadName() + " mTextureID=" + mTextureID);
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);
             GLES20.glUniform1i(uSamplerTextureHandler, 0);
