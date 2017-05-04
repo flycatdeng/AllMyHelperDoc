@@ -127,6 +127,14 @@ public class GravitySensorAider implements SensorEventListener {
         return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
     }
 
+    public void onDestroy() {
+        clearCallbacks();
+    }
+
+    public void clearCallbacks() {
+        mDataCallback = null;
+    }
+
     /**
      * 用于将优化之后的x y坐标回调
      *
