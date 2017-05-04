@@ -91,6 +91,8 @@ public class Actor implements IGLActor, IActorMatrixOperation {
      * 子类需要重写这个方法去实现自己的绘制
      */
     protected void onDraw() {
+        GLES20.glUseProgram(mProgramID);
+        mRunOnceOnDraw.runPendings();
     }
 
     public void setMaterialFromAssets(final String materialFile) {
@@ -103,6 +105,15 @@ public class Actor implements IGLActor, IActorMatrixOperation {
                 LogHelper.d(TAG, "setMaterialFromAssets materialFile=" + materialFile + " mProgramID=" + mProgramID);
             }
         });
+        runOnceBeforeDraw(new Runnable() {
+            @Override
+            public void run() {
+                onShaderLocationInit();//初始化完program之后就获取对应的location
+            }
+        });
+    }
+
+    protected void onShaderLocationInit() {
     }
 
     protected int getMaterialHandler(String propertyName) {
@@ -157,8 +168,6 @@ public class Actor implements IGLActor, IActorMatrixOperation {
         if (mProgramID == -1) {
             throw new RuntimeException("mProgramID == -1");
         }
-        GLES20.glUseProgram(mProgramID);
-        mRunOnceOnDraw.runPendings();
         onDraw();
     }
 

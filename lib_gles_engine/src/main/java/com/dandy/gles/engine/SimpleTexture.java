@@ -52,6 +52,7 @@ public class SimpleTexture extends Actor {
 
     @Override
     protected void onDraw() {
+        super.onDraw();
         if (aPositionHandler == -1) {
             aPositionHandler = getMaterialHandler("position");
         }
