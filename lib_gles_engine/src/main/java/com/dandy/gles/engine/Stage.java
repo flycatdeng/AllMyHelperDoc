@@ -1,6 +1,7 @@
 package com.dandy.gles.engine;
 
 import android.content.Context;
+import android.opengl.GLES20;
 
 public class Stage extends Group {
     private static final String TAG = "Stage";
@@ -27,6 +28,7 @@ public class Stage extends Group {
 
     //    @Override
     public void onDrawFrame() {
+        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
         for (final Actor child : mChildren) {
             child.onDrawFrame();
         }
