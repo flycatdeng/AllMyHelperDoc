@@ -89,7 +89,7 @@ public class ShaderHelper {
      * @param fragmentSourcePath 片元着色器字符串在assets目录下的路径
      * @return
      */
-    public static int getProgramFromAsset(Context context, String vertexSourcePath, String fragmentSourcePath) {
+    public synchronized  static int  getProgramFromAsset(Context context, String vertexSourcePath, String fragmentSourcePath) {
         String vertexSource = FileHelper.getFileContentFromAsset(context, vertexSourcePath);
         String fragmentSource = FileHelper.getFileContentFromAsset(context, fragmentSourcePath);
 //        LogHelper.d(TAG, LogHelper.getThreadName() + "vertexSource-" + vertexSource);
