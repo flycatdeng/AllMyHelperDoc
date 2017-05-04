@@ -117,6 +117,11 @@ public class Obj3DLoadAider {
                     if (onLoadListener != null) {
                         onLoadListener.onLoadFailed(e.getMessage());
                     }
+                } finally {
+                    verticesList.clear();
+                    textureCoorList.clear();
+                    normalVecCoorList.clear();
+                    facePointInfoList.clear();
                 }
             }
         }).start();
