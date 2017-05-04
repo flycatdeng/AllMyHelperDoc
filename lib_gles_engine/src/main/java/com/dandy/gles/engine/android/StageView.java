@@ -24,6 +24,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class StageView extends GLSurfaceView {
     protected Context mContext;
     protected Stage mStage;
+    private int mRenderMode = RENDERMODE_WHEN_DIRTY;
 
     public StageView(Context context) {
         super(context);
@@ -48,6 +49,12 @@ public class StageView extends GLSurfaceView {
         setEGLConfigChooser(new AntiAliasingEGLConfigChooser());
         setRenderer(mRenderer); // 设置渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+    }
+
+    @Override
+    public void setRenderMode(int renderMode) {
+        super.setRenderMode(renderMode);
+        mRenderMode = renderMode;
     }
 
     public Stage getStage() {
@@ -76,12 +83,18 @@ public class StageView extends GLSurfaceView {
 
     @Override
     public void onPause() {
-        super.onPause();
+        if (mRenderMode == RENDERMODE_CONTINUOUSLY) {
+            super.onPause();
+        }
+//        super.onPause();
     }
 
     @Override
     public void onResume() {
-        super.onResume();
+        if (mRenderMode == RENDERMODE_CONTINUOUSLY) {
+            super.onResume();
+        }
+//        super.onResume();
     }
 
     @Override
