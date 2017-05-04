@@ -1,7 +1,6 @@
 package com.dandy.helper.gles;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -61,25 +60,6 @@ public class ShaderHelper {
      */
     public static int getFragmentShader(String fragmentSource) {
         return getShader(GLES20.GL_FRAGMENT_SHADER, fragmentSource);
-    }
-
-    /**
-     * 创建shader在gpu上运行的程序,从assets目录下获取
-     *
-     * @return
-     */
-    public static int getProgramFromAsset(Context context, String materialPath) {
-        String vertexSourcePath = "origin.vert";
-        String fragmentSourcePath = "origin.frag";
-        Properties property = new Properties();
-        try {
-            property.load(AssetsHelper.getInputStream(context, materialPath));
-            vertexSourcePath = property.getProperty("VertextFile");
-            fragmentSourcePath = property.getProperty("FragmentFile");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return getProgramFromAsset(context, vertexSourcePath, fragmentSourcePath);
     }
 
     /**
