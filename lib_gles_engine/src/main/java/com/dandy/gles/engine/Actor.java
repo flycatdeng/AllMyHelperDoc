@@ -46,10 +46,13 @@ public class Actor implements IGLActor, IActorMatrixOperation {
         mParentActor = parent;
     }
 
+    protected boolean mIsResumed=false;
     public void onResume() {
+        mIsResumed=true;
     }
 
     public void onPause() {
+        mIsResumed=false;
     }
 
     public void onDestroy() {
