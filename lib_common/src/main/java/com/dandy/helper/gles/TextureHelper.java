@@ -86,7 +86,10 @@ public class TextureHelper {
      * @return
      */
     public static int initTextureID(Bitmap bitmap, TextureOptions options, boolean recycleBmp) {
-        LogHelper.d(TAG, "initTextureID(Bitmap bitmap)");
+        LogHelper.d(TAG, "initTextureID(Bitmap bitmap, TextureOptions options, boolean recycleBmp)");
+        if (options == null) {
+            options = TextureOptions.defaultOptions();
+        }
         int textureId;
         // 生成纹理ID
         int[] textures = new int[1];
