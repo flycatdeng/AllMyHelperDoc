@@ -31,12 +31,11 @@ public class TextureHelper {
     public static int initTextureID(InputStream picIs) {
         return initTextureID(picIs, true);
     }
-    
+
     /**
      * 得到该图片生成纹理之后的ID
-     * 
-     * @param picIs
-     *            该图片的输入流
+     *
+     * @param picIs 该图片的输入流
      * @return
      */
     public static int initTextureID(InputStream picIs, boolean recycleBmp) {
@@ -68,12 +67,25 @@ public class TextureHelper {
 
     /**
      * 得到该图片生成纹理之后的ID
-     * 
-     * @param picIs
-     *            该图片的输入流
+     *
      * @return
      */
     public static int initTextureID(Bitmap bitmap, boolean recycleBmp) {
+        LogHelper.d(TAG, "initTextureID(Bitmap bitmap)");
+        return initTextureID(bitmap, TextureOptions.defaultOptions(), recycleBmp);
+    }
+
+    /**
+     * <pre>
+     *     获取纹理ID
+     * </pre>
+     *
+     * @param bitmap     图片对象
+     * @param options    纹理的一些选项设置，例如是否使用mipmap啊，MIN MAG采样方式啊
+     * @param recycleBmp 是否回收该bitmap对象
+     * @return
+     */
+    public static int initTextureID(Bitmap bitmap, TextureOptions options, boolean recycleBmp) {
         LogHelper.d(TAG, "initTextureID(Bitmap bitmap)");
         int textureId;
         // 生成纹理ID
@@ -84,17 +96,20 @@ public class TextureHelper {
         );
         textureId = textures[0];// 获取产生的纹理ID
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);// 绑定纹理ID,这里是非常关键的，因为之后不会用到这个ID,直到取图片的时候才用到
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);// 采用MIN采样方式
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);// 采用MAG采样方式
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);// 设置S轴拉伸方式
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);// 设置T轴拉伸方式
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, options.glTextureMinFilter);// 采用MIN采样方式
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, options.glTextureMagFilter);// 采用MAG采样方式
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, options.glTextureWapS);// 设置S轴拉伸方式
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, options.glTextureWapT);// 设置T轴拉伸方式
         // 实际加载纹理
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, // 纹理类型，在OpenGL
-                                                 // ES中必须为GL10.GL_TEXTURE_2D
+                // ES中必须为GL10.GL_TEXTURE_2D
                 0, // 纹理的层次，0表示基本图像层，可以理解为直接贴图
                 bitmap, // 纹理图像
                 0 // 纹理边框尺寸
         );
+        if (options.useMipmap) {
+            GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+        }
         if (recycleBmp) {
             bitmap.recycle(); // 纹理加载成功后释放图片，否则在纹理较多的项目中可能导致内存崩溃
         }
@@ -161,7 +176,7 @@ public class TextureHelper {
      * <pre>
      * 初始绑定图片到对应纹理ID
      * </pre>
-     * 
+     *
      * @param bitmap
      */
     public static void setTextureOriginImage(Bitmap bitmap) {
@@ -176,7 +191,7 @@ public class TextureHelper {
      * <pre>
      * 初始绑定图片到对应纹理ID
      * </pre>
-     * 
+     *
      * @param bitmap
      */
     public static void setTextureSimpleOriginImage(Bitmap bitmap) {
@@ -191,7 +206,7 @@ public class TextureHelper {
      * <pre>
      * 切换纹理切图
      * </pre>
-     * 
+     *
      * @param bitmap
      */
     public static void changeTextureImage(Bitmap bitmap) {
