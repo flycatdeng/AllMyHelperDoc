@@ -37,6 +37,7 @@ public class Texture extends Actor {
 
     public Texture(Context context) {
         super(context);
+        mDefaultTextureOptions=null;
         mPositionBuffer = ArrayToBufferHelper.floatArrayToBuffer(POSITION);
         mTexCoorBuffer = ArrayToBufferHelper.floatArrayToBuffer(TEXTURE);
         mDefaultMaterialName = "gles_engine/simple.mat";

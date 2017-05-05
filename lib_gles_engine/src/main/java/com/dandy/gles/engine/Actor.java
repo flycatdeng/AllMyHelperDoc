@@ -10,6 +10,7 @@ import com.dandy.helper.gles.IGLActor;
 import com.dandy.helper.gles.MVPMatrixAider;
 import com.dandy.helper.gles.Material;
 import com.dandy.helper.gles.TextureHelper;
+import com.dandy.helper.gles.TextureOptions;
 import com.dandy.helper.gles.Vec3;
 import com.dandy.helper.java.PendingThreadAider;
 
@@ -28,6 +29,7 @@ public class Actor implements IGLActor, IActorMatrixOperation {
     protected int mProgramID = -1;// 自定义渲染管线着色器程序id
     protected int mTextureID = -1;
     protected String mDefaultMaterialName = "gles_engine_material/default_simple.mat";
+    protected TextureOptions mDefaultTextureOptions;
     private Actor mParentActor;
     private boolean mIsMaterialSetFromOutside = false;
     private boolean mIsSurfaceCreated = false;
@@ -75,11 +77,15 @@ public class Actor implements IGLActor, IActorMatrixOperation {
      * @param recycleBmp 是否回收该bitmap
      */
     public void setTexture(final Bitmap bitmap, final boolean recycleBmp) {
+        setTexture(bitmap, mDefaultTextureOptions, recycleBmp);
+    }
+
+    public void setTexture(final Bitmap bitmap, final TextureOptions options, final boolean recycleBmp) {
         runOnceBeforeDraw(new Runnable() {
             @Override
             public void run() {
                 if (mTextureID == -1) {
-                    mTextureID = TextureHelper.initTextureID(bitmap, recycleBmp);
+                    mTextureID = TextureHelper.initTextureID(bitmap, options, recycleBmp);
                 } else {
                     GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
                     TextureHelper.changeTextureImage(bitmap);
@@ -87,7 +93,6 @@ public class Actor implements IGLActor, IActorMatrixOperation {
             }
         });
     }
-
     /**
      * 设置纹理
      */

@@ -40,6 +40,7 @@ public class SimpleTexture extends Actor {
 
     public SimpleTexture(Context context) {
         super(context);
+        mDefaultTextureOptions=null;
         mPositionBuffer = ArrayToBufferHelper.floatArrayToBuffer(POSITION);
         mTexCoorBuffer = ArrayToBufferHelper.floatArrayToBuffer(TEXTURE);
         mDefaultMaterialName = "gles_engine_simple_image/simple.mat";

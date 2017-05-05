@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 
 import com.dandy.helper.android.LogHelper;
 import com.dandy.helper.gles.Obj3DLoadAider;
+import com.dandy.helper.gles.TextureOptions;
 import com.dandy.helper.gles.Vec3;
 import com.dandy.helper.java.nio.ArrayToBufferHelper;
 
@@ -46,6 +47,7 @@ public class Object3D extends Actor {
 
     public Object3D(Context context) {
         super(context);
+        mDefaultTextureOptions= TextureOptions.defaultMipmapOptions();
         mDefaultMaterialName = "gles_engine_object3d/default_simple_object3d.mat";
     }
 
