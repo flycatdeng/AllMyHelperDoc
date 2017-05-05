@@ -77,8 +77,8 @@ public class GravitySensorAider implements SensorEventListener {
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float centerX = 0.0f;
-        float centerY = 0.15f;
+        float centerX = 0.01f;//xy两者边界值不能取到0
+        float centerY = 0.01f;
 
         float maximillian = 1.0f;
         float tmpX = map(event.values[0], -8f, 8.f, -0, maximillian);
