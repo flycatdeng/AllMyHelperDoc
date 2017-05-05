@@ -32,6 +32,9 @@ import android.opengl.GLES20;
  */
 
 public class TextureOptions {
+    private TextureOptions() {
+    }
+
     /**
      * <pre>
      *       MIN采样方式
