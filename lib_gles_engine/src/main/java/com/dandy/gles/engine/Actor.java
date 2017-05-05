@@ -22,7 +22,7 @@ public class Actor implements IGLActor, IActorMatrixOperation {
     protected int mSurfaceWidth, mSurfaceHeight;
     protected PendingThreadAider mRunOnceOnDraw = new PendingThreadAider();
     protected PendingThreadAider mRunOnceBeforeDraw = new PendingThreadAider();
-    private MVPMatrixAider mMatrixAider = new MVPMatrixAider();
+    protected MVPMatrixAider mMatrixAider = new MVPMatrixAider();
     protected Material mMaterial;
     protected int mVertexCount = 0;
     protected int mProgramID = -1;// 自定义渲染管线着色器程序id
@@ -44,6 +44,12 @@ public class Actor implements IGLActor, IActorMatrixOperation {
 
     public void setParent(Actor parent) {
         mParentActor = parent;
+    }
+
+    public void onResume() {
+    }
+
+    public void onPause() {
     }
 
     public void onDestroy() {

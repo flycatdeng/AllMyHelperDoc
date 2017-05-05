@@ -51,6 +51,12 @@ public class MVPMatrixAider {
         return mMVMatrix;
     }
 
+    public float[] getViewProjMatrix() {
+        float[] result = new float[16];
+        Matrix.multiplyMM(result, 0, mProjectMatrix, 0, mViewMatrix, 0);
+        return result;
+    }
+
     /**
      * 得到投影矩阵
      *

@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 
 public class Stage extends Group {
     private static final String TAG = "Stage";
+
     public Stage(Context context) {
         super(context);
     }
@@ -41,6 +42,20 @@ public class Stage extends Group {
      */
     public void add(Actor... actors) {
         addChild(actors);
+    }
+
+    @Override
+    public void onResume() {
+        for (final Actor child : mChildren) {
+            child.onResume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        for (final Actor child : mChildren) {
+            child.onPause();
+        }
     }
 
     @Override

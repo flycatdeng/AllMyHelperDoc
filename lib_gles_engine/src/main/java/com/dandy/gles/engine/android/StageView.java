@@ -87,6 +87,7 @@ public class StageView extends GLSurfaceView {
             super.onPause();
         }
 //        super.onPause();
+        mStage.onPause();
     }
 
     @Override
@@ -95,6 +96,7 @@ public class StageView extends GLSurfaceView {
             super.onResume();
         }
 //        super.onResume();
+        mStage.onResume();
     }
 
     @Override
