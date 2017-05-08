@@ -3,6 +3,7 @@ package com.dandy.gles.engine.android;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.util.AttributeSet;
 
 import com.dandy.gles.engine.Image;
@@ -47,6 +48,9 @@ public class StageView extends GLSurfaceView {
         });
         this.setEGLContextClientVersion(2); // 设置使用OPENGL ES2.0
         setEGLConfigChooser(new AntiAliasingEGLConfigChooser());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            setPreserveEGLContextOnPause(true);//如果没有这一句，那onPause之后再onResume屏幕将会是黑屏滴
+        }
         setRenderer(mRenderer); // 设置渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
@@ -83,26 +87,32 @@ public class StageView extends GLSurfaceView {
 
     @Override
     public void onPause() {
-        if (mRenderMode == RENDERMODE_CONTINUOUSLY) {
-            super.onPause();
-        }
-//        super.onPause();
+//        if (mRenderMode == RENDERMODE_CONTINUOUSLY) {
+//            super.onPause();
+//        }
+        super.onPause();
         mStage.onPause();
     }
 
     @Override
     public void onResume() {
-        if (mRenderMode == RENDERMODE_CONTINUOUSLY) {
-            super.onResume();
-        }
-//        super.onResume();
+//        if (mRenderMode == RENDERMODE_CONTINUOUSLY) {
+//            super.onResume();
+//        }
+        super.onResume();
         mStage.onResume();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mStage.onDestroy();
+        onDestroy();
     }
 
+    public void onDestroy(){
+        if(mStage!=null){
+            mStage.onDestroy();
+            mStage=null;
+        }
+    }
 }
