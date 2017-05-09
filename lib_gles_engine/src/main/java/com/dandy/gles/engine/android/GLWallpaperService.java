@@ -2,7 +2,6 @@ package com.dandy.gles.engine.android;
 
 import android.content.Context;
 import android.service.wallpaper.WallpaperService;
-import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 
 import com.dandy.gles.engine.Stage;
@@ -12,27 +11,20 @@ import com.dandy.helper.gles.GLCommonUtils;
 /**
  * <pre>
  *     OpenGL引擎 动态壁纸Service，基本框架。
- *     在{@link #onStageViewCreated(Stage)}中添加内容
+ *     子类实现onCreateEngine，可继承自GLEngine
  * </pre>
  * Created by flycatdeng on 2017/5/8.
  * Email:dengchukun@qq.com
  * Wechat:flycatdeng
  */
 
-public class GLWallpaperService extends WallpaperService {
+public abstract class GLWallpaperService extends WallpaperService {
+    protected Context mContext;
+
     @Override
-    public Engine onCreateEngine() {
-        OpenGLES2Engine openGLES2Engine = new OpenGLES2Engine();
-        return openGLES2Engine;
-    }
-
-    protected void onStageViewCreated(Stage stage) {
-    }
-
-    protected void onResume() {
-    }
-
-    protected void onPause() {
+    public void onCreate() {
+        super.onCreate();
+        mContext = this;
     }
 
     /**
@@ -40,9 +32,10 @@ public class GLWallpaperService extends WallpaperService {
      *
      * @author dengchukun 2016年12月9日
      */
-    class OpenGLES2Engine extends Engine {
-        private final String TAG = OpenGLES2Engine.class.getSimpleName();
+    public class GLEngine extends Engine {
+        private String TAG = GLEngine.class.getSimpleName();
         private ProxyStageView mProxyStageView;
+
         /**
          * <pre>
          * 开始一直很纠结，为什么会用到这么一个GLSurfaceView，而且没有添加这个View的痕迹，
@@ -64,12 +57,6 @@ public class GLWallpaperService extends WallpaperService {
 
             public ProxyStageView(Context context) {
                 super(context);
-                onStageViewCreated(mStage);
-            }
-
-            public ProxyStageView(Context context, AttributeSet attrs) {
-                super(context, attrs);
-                onStageViewCreated(mStage);
             }
 
             @Override
@@ -77,18 +64,22 @@ public class GLWallpaperService extends WallpaperService {
                 LogHelper.d(TAG, LogHelper.getThreadName());
                 return getSurfaceHolder();
             }
-
-            public void onDestroy() {
-                super.onDetachedFromWindow();
-            }
         }//end of ProxyGLSurfaceView
+
+        public Stage getStage() {
+            return mProxyStageView.getStage();
+        }
+
+        public Context getContext() {
+            return mContext;
+        }
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
             boolean isSupportEs2 = GLCommonUtils.isSupportEs2(GLWallpaperService.this);//
             if (!isSupportEs2) {
-                return;
+                throw new RuntimeException("This engine is based on ES2.0,but your device does not support.");
             }
             mProxyStageView = new ProxyStageView(GLWallpaperService.this);
         }
@@ -96,7 +87,6 @@ public class GLWallpaperService extends WallpaperService {
         @Override
         public void onDestroy() {
             super.onDestroy();
-            LogHelper.d(TAG, LogHelper.getThreadName());
             if (mProxyStageView != null) {
                 mProxyStageView.onDestroy();
             }
@@ -105,16 +95,19 @@ public class GLWallpaperService extends WallpaperService {
         @Override
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
-            if (mProxyStageView == null) {
-                return;
-            }
             if (visible) {
                 onResume();
-                mProxyStageView.onResume();
             } else {
                 onPause();
-                mProxyStageView.onPause();
             }
+        }
+
+        protected void onResume() {
+            mProxyStageView.onResume();
+        }
+
+        protected void onPause() {
+            mProxyStageView.onPause();
         }
     }
 }
