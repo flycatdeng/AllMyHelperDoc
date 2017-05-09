@@ -141,4 +141,14 @@ public class FileHelper {
             bitmap.recycle();
         }
     }
+
+    public static boolean isFileExist(String path) {
+        File file = new File(path);
+        return file.exists();
+    }
+
+    public static boolean isFileExist(String dirPath, String fileName) {
+        File file = new File(dirPath + "/" + fileName);
+        return file.exists();
+    }
 }
