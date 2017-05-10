@@ -51,7 +51,10 @@ public abstract class SimpleGLActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        if (mStageView != null) {
+            mStageView.onDestroy();
+        }
         mContent.onDestroy();
+        super.onDestroy();
     }
 }

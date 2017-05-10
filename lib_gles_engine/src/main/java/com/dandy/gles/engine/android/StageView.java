@@ -112,6 +112,7 @@ public class StageView extends GLSurfaceView {
     public void onDestroy(){
         if(mStage!=null){
             mStage.onDestroy();
+            super.onDetachedFromWindow();
             mStage=null;
         }
     }
