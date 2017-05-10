@@ -4,9 +4,8 @@ import java.util.LinkedList;
 
 /**
  * 若在某些条件下才能运行的一些行为，提前运行则失去了意义，所以此时可以将这些事件保存起来，等条件满足之后再全部按顺序运行
- * 
+ *
  * @author flycatdeng
- * 
  */
 public class PendingThreadAider {
     LinkedList<Runnable> mRunOnDraw = new LinkedList<Runnable>();
@@ -21,5 +20,16 @@ public class PendingThreadAider {
         synchronized (mRunOnDraw) {
             mRunOnDraw.addLast(runnable);
         }
+    }
+
+    public void clear() {
+        synchronized (mRunOnDraw) {
+            mRunOnDraw.clear();
+        }
+    }
+
+    public void destroy() {
+        clear();
+        mRunOnDraw = null;
     }
 }
