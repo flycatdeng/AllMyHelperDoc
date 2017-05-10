@@ -2,6 +2,7 @@ package com.dandy.gles.engine.android;
 
 import android.content.Context;
 import android.service.wallpaper.WallpaperService;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.dandy.gles.engine.Stage;
@@ -25,6 +26,12 @@ public abstract class GLWallpaperService extends WallpaperService {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(LogHelper.getRootTag(),"GLWallpaperService onDestroy");
     }
 
     /**
@@ -87,6 +94,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         @Override
         public void onDestroy() {
             super.onDestroy();
+            Log.d(LogHelper.getRootTag(),"GLEngine onDestroy");
             if (mProxyStageView != null) {
                 mProxyStageView.onDestroy();
             }
