@@ -30,8 +30,9 @@ public abstract class GLWallpaperService extends WallpaperService {
 
     @Override
     public void onDestroy() {
+        Log.d(LogHelper.getRootTag(), "GLWallpaperService onDestroy");
+        mContext = null;
         super.onDestroy();
-        Log.d(LogHelper.getRootTag(),"GLWallpaperService onDestroy");
     }
 
     /**
@@ -40,7 +41,6 @@ public abstract class GLWallpaperService extends WallpaperService {
      * @author dengchukun 2016年12月9日
      */
     public class GLEngine extends Engine {
-        private String TAG = GLEngine.class.getSimpleName();
         private ProxyStageView mProxyStageView;
 
         /**
@@ -60,15 +60,12 @@ public abstract class GLWallpaperService extends WallpaperService {
          * @author dengchukun 2016年12月9日
          */
         class ProxyStageView extends StageView {
-            private final String TAG = ProxyStageView.class.getSimpleName();
-
             public ProxyStageView(Context context) {
                 super(context);
             }
 
             @Override
             public SurfaceHolder getHolder() {
-                LogHelper.d(TAG, LogHelper.getThreadName());
                 return getSurfaceHolder();
             }
         }//end of ProxyGLSurfaceView
@@ -93,11 +90,12 @@ public abstract class GLWallpaperService extends WallpaperService {
 
         @Override
         public void onDestroy() {
-            super.onDestroy();
-            Log.d(LogHelper.getRootTag(),"GLEngine onDestroy");
+            Log.d(LogHelper.getRootTag(), "GLEngine onDestroy");
             if (mProxyStageView != null) {
                 mProxyStageView.onDestroy();
+                mProxyStageView = null;
             }
+            super.onDestroy();
         }
 
         @Override
