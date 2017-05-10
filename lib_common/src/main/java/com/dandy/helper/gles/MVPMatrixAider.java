@@ -28,7 +28,22 @@ public class MVPMatrixAider {
     private float[] mModelMatrix = new float[16];// 具体物体的移动旋转矩阵，旋转、平移、缩放
     private float[] mMVMatrix = new float[16];// 模型和摄像机位置的变换矩阵
     private float[] mMVPMatrix = new float[16];// 最后起作用的总变换矩阵
+    private float[] mViewProjMatrix= new float[16];
     private ProjectType mProjectType;//投影类型，正交、透视
+
+    public void onDestroy() {
+        mProjectMatrix = null;
+        mViewMatrix = null;
+        mModelMatrix = null;
+        mMVMatrix = null;
+        mMVPMatrix = null;
+        mViewProjMatrix = null;
+    }
+
+    public float[] getViewProjMatrix() {
+        Matrix.multiplyMM(mViewProjMatrix, 0, mProjectMatrix, 0, mViewMatrix, 0);
+        return mViewProjMatrix;
+    }
 
     /**
      * 得到物体本身变换以及观察点变换以及投影矩阵综合的总变换矩阵
@@ -49,12 +64,6 @@ public class MVPMatrixAider {
     public float[] getModelViewMatrix() {
         Matrix.multiplyMM(mMVMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);//左乘，mViewMatrix左乘mModelMatrix得到mMVMatrix
         return mMVMatrix;
-    }
-
-    public float[] getViewProjMatrix() {
-        float[] result = new float[16];
-        Matrix.multiplyMM(result, 0, mProjectMatrix, 0, mViewMatrix, 0);
-        return result;
     }
 
     /**
