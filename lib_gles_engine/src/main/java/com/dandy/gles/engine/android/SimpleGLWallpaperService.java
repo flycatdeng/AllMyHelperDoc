@@ -47,8 +47,11 @@ public abstract class SimpleGLWallpaperService extends GLWallpaperService {
 
         @Override
         public void onDestroy() {
+            if (mContent != null) {
+                mContent.onDestroy();
+                mContent = null;
+            }
             super.onDestroy();
-            mContent.onDestroy();
         }
     }
 }
