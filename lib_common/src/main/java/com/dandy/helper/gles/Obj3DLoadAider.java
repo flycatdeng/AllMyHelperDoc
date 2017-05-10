@@ -372,6 +372,12 @@ public class Obj3DLoadAider {
             return mParseTime;
         }
 
+        public void destroy() {
+            mVertexXYZ = null;
+            mNormalVectorXYZ = null;
+            mTextureVertexST = null;
+        }
+
         @Override
         public String toString() {
             return "LoadResult{" +
