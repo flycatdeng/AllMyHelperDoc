@@ -59,6 +59,24 @@ public class Actor implements IGLActor, IActorMatrixOperation {
 
     public void onDestroy() {
         GLES20.glDeleteProgram(mProgramID);
+        if (mRunOnceBeforeDraw != null) {
+            mRunOnceBeforeDraw.destroy();
+            mRunOnceBeforeDraw = null;
+        }
+        if (mRunOnceOnDraw != null) {
+            mRunOnceOnDraw.destroy();
+            mRunOnceOnDraw = null;
+        }
+        if (mMatrixAider != null) {
+            mMatrixAider.onDestroy();
+            mMatrixAider = null;
+        }
+        if (mMaterial != null) {
+            mMaterial.destroy();
+            mMaterial = null;
+        }
+        mParentActor = null;
+        mRequestRenderListener = null;
     }
 
     /**
