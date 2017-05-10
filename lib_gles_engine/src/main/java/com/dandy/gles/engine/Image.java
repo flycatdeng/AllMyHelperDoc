@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import com.dandy.helper.android.res.AssetsHelper;
 
 public class Image extends Texture {
-    private static final String TAG = "Image";
-
     private Image(Context context) {
         super(context);
         mVertexCount = 4;

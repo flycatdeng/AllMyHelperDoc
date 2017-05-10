@@ -245,4 +245,22 @@ public class Object3D extends Actor {
 
     protected void onDrawArraysAfter() {
     }
+
+    @Override
+    public void onDestroy() {
+        if (mVertexBuffer != null) {
+            mVertexBuffer.clear();
+            mVertexBuffer = null;
+        }
+        if (mNormalBuffer != null) {
+            mNormalBuffer.clear();
+            mNormalBuffer = null;
+        }
+        if (mTexCoorBuffer != null) {
+            mTexCoorBuffer.clear();
+            mTexCoorBuffer = null;
+        }
+        onLoadListener=null;
+        super.onDestroy();
+    }
 }

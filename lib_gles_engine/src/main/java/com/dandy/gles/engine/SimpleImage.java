@@ -15,8 +15,6 @@ import com.dandy.helper.android.res.AssetsHelper;
  */
 
 public class SimpleImage extends SimpleTexture {
-    private static final String TAG = "SimpleImage";
-
     private SimpleImage(Context context) {
         super(context);
         mVertexCount = 4;

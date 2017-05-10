@@ -4,8 +4,6 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 public class Stage extends Group {
-    private static final String TAG = "Stage";
-
     public Stage(Context context) {
         super(context);
     }

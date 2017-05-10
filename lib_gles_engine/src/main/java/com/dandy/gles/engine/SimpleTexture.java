@@ -48,6 +48,14 @@ public class SimpleTexture extends Actor {
 
     public void onDestroy() {
         mIsInitialized = false;
+        if (mPositionBuffer != null) {
+            mPositionBuffer.clear();
+            mPositionBuffer = null;
+        }
+        if (mTexCoorBuffer != null) {
+            mTexCoorBuffer.clear();
+            mTexCoorBuffer = null;
+        }
         super.onDestroy();
     }
 
