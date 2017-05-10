@@ -23,7 +23,6 @@ import javax.microedition.khronos.opengles.GL10;
  */
 
 public class StageView extends GLSurfaceView {
-    protected Context mContext;
     protected Stage mStage;
     private int mRenderMode = RENDERMODE_WHEN_DIRTY;
 
@@ -38,7 +37,6 @@ public class StageView extends GLSurfaceView {
     }
 
     private void init(Context context) {
-        mContext = context;
         mStage = new Stage(context);
         mStage.setRequestRenderListener(new IGLActor.RequestRenderListener() {
             @Override
@@ -109,11 +107,14 @@ public class StageView extends GLSurfaceView {
         onDestroy();
     }
 
-    public void onDestroy(){
-        if(mStage!=null){
+    public void onDestroy() {
+        if (mRenderer != null) {
+            mRenderer = null;
+        }
+        if (mStage != null) {
             mStage.onDestroy();
             super.onDetachedFromWindow();
-            mStage=null;
+            mStage = null;
         }
     }
 }
