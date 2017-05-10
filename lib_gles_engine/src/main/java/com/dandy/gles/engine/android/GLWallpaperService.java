@@ -96,6 +96,7 @@ public abstract class GLWallpaperService extends WallpaperService {
                 mProxyStageView = null;
             }
             super.onDestroy();
+            System.gc();
         }
 
         @Override
