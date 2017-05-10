@@ -36,7 +36,7 @@ public class GravitySensorAider implements SensorEventListener {
     private float mOldY = 0.0f;
     private float mPreX = -1f, mPreY = -1f;
     private float mDataCallbackChangedThreshold = DATA_CALLBACK_CHANGED_THRESHOLD;
-
+    private boolean mIsResumed=false;
     public GravitySensorAider(Context context) {
         init(context);
     }
@@ -53,10 +53,17 @@ public class GravitySensorAider implements SensorEventListener {
     }
 
     public void onPause() {
-        mSensorManager.unregisterListener(this);
+        mIsResumed=false;
+        if (mSensorManager != null) {
+            mSensorManager.unregisterListener(this);
+        }
     }
 
     public void onResume() {
+        if(mIsResumed){
+            return;
+        }
+        mIsResumed=true;
         if (mSensorManager != null) {
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
         }
@@ -128,6 +135,11 @@ public class GravitySensorAider implements SensorEventListener {
     }
 
     public void onDestroy() {
+        if (mIsResumed) {
+            onPause();
+        }
+        mSensorManager = null;
+        mSensor = null;
         clearCallbacks();
     }
 
