@@ -52,6 +52,7 @@ public class Material {
             }
             mPropertyNameHandlerMap.put(propertyName, handler);
         }
+        parser.destroy();
     }
 
     public int getHandlerByPropertyName(String propertyName) {
@@ -69,5 +70,12 @@ public class Material {
 
     public void setmMaterailName(String materailSource) {
         this.mMaterailName = materailSource;
+    }
+
+    public void destroy() {
+        if (mPropertyNameHandlerMap != null) {
+            mPropertyNameHandlerMap.clear();
+            mPropertyNameHandlerMap = null;
+        }
     }
 }

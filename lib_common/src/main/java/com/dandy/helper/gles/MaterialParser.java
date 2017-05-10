@@ -58,4 +58,11 @@ public class MaterialParser {
     public String getFragmentFileName() {
         return fragmentFileName;
     }
+
+    public void destroy() {
+        if (mHandlerNameAuthority != null) {
+            mHandlerNameAuthority.clear();
+            mHandlerNameAuthority = null;
+        }
+    }
 }
