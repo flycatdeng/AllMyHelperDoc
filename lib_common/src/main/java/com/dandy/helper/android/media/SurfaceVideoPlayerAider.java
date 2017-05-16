@@ -172,4 +172,7 @@ public class SurfaceVideoPlayerAider {
         }
     }
 
+    public MediaPlayer getMediaPlayer() {
+        return mMediaPlayer;
+    }
 }
