@@ -19,4 +19,12 @@ public interface ISimpleGLContent {
     void onPause();
 
     void onDestroy();
+
+    /**
+     * 该方法会在{@link #onCreate(Stage)}之前调用，用于设置StageView的一些额外参数
+     * 该方法会在StageView设置renderer之前调用，初始化之后调用
+     *
+     * @param stageView
+     */
+    void setStageViewConfigsBeforeSetRender(StageView stageView);
 }

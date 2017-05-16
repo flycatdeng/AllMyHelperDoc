@@ -27,8 +27,8 @@ public abstract class SimpleGLWallpaperService extends GLWallpaperService {
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
-            super.onCreate(surfaceHolder);
             mContent = getSimpleGLContent(mContext);
+            super.onCreate(surfaceHolder);
             Stage stage = getStage();
             mContent.onCreate(stage);
         }
@@ -52,6 +52,14 @@ public abstract class SimpleGLWallpaperService extends GLWallpaperService {
                 mContent = null;
             }
             super.onDestroy();
+        }
+
+        @Override
+        protected void setStageViewConfigsBeforeSetRender(StageView stageView) {
+            super.setStageViewConfigsBeforeSetRender(stageView);
+            if (mContent != null) {
+                mContent.setStageViewConfigsBeforeSetRender(stageView);
+            }
         }
     }
 }
