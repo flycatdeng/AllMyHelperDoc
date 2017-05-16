@@ -171,7 +171,13 @@ public class Video extends Actor implements SurfaceTexture.OnFrameAvailableListe
 
     @Override
     public void onDestroy() {
-        mSurfaceVideoPlayerAider.onDestroy();
+        if(mSurfaceVideoPlayerAider!=null){
+            mSurfaceVideoPlayerAider.onDestroy();
+        }
+        if(mSurface!=null){
+            mSurface.release();
+            mSurface=null;
+        }
         if (mPositionBuffer != null) {
             mPositionBuffer.clear();
             mPositionBuffer = null;
