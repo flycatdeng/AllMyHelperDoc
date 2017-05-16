@@ -25,9 +25,12 @@ public abstract class SimpleGLWallpaperService extends GLWallpaperService {
     public class SimpleGLEngine extends GLEngine {
         private ISimpleGLContent mContent;
 
+        public SimpleGLEngine() {
+            mContent = getSimpleGLContent(mContext);
+        }
+
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
-            mContent = getSimpleGLContent(mContext);
             super.onCreate(surfaceHolder);
             Stage stage = getStage();
             mContent.onCreate(stage);

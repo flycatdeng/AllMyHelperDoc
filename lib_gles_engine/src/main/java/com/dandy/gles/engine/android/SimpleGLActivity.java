@@ -26,7 +26,7 @@ public abstract class SimpleGLActivity extends Activity {
         super.onCreate(savedInstanceState);
         mContent = getSimpleGLContent(this);
         mStageView = new StageView(this);
-        setStageViewConfigsBeforeSetRender(mStageView);
+        mContent.setStageViewConfigsBeforeSetRender(mStageView);//在StageView设置renderer之前设置一些参数，这样以免之后不能设置一些参数了
         mStageView.initRenderer();
         setContentView(mStageView);
         Stage stage = mStageView.getStage();
@@ -64,10 +64,4 @@ public abstract class SimpleGLActivity extends Activity {
         super.onDestroy();
     }
 
-    /**
-     * 在StageView设置renderer之前设置一些参数，这样以免之后不能设置一些参数了
-     * @param stageView
-     */
-    protected void setStageViewConfigsBeforeSetRender(StageView stageView) {
-    }
 }
