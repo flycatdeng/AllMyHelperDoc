@@ -62,6 +62,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         class ProxyStageView extends StageView {
             public ProxyStageView(Context context) {
                 super(context);
+                setStageViewConfigsBeforeSetRender(this);
                 initRenderer();
             }
 
@@ -116,6 +117,14 @@ public abstract class GLWallpaperService extends WallpaperService {
 
         protected void onPause() {
             mProxyStageView.onPause();
+        }
+
+        /**
+         * 在StageView设置renderer之前设置一些参数，这样以免之后不能设置一些参数了
+         *
+         * @param stageView
+         */
+        protected void setStageViewConfigsBeforeSetRender(StageView stageView) {
         }
     }
 }
