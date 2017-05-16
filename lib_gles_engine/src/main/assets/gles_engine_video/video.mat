@@ -1,0 +1,9 @@
+
+vertex_source_file video.vert     //顶点着色器文件：对应目录的文件名
+fragment_source_file video.frag   //片元着色器文件：对应目录的文件名
+
+//属性
+uniform mat4 uSTMatrix
+attribute vec4 aPosition
+attribute vec4 aTextureCoord
+uniform samplerExternalOES sTexture
