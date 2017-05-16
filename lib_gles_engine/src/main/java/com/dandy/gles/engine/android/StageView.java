@@ -52,11 +52,6 @@ public class StageView extends GLSurfaceView {
     }
 
     @Override
-    public void setEGLConfigChooser(boolean needDepth) {
-        super.setEGLConfigChooser(needDepth);
-    }
-
-    @Override
     public void setEGLConfigChooser(EGLConfigChooser configChooser) {
         super.setEGLConfigChooser(configChooser);
         mEGLConfigChooser = configChooser;
