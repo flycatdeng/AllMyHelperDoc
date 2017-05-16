@@ -12,7 +12,6 @@ public class Stage extends Group {
     protected void onChildAdded(final Actor child) {
 //        child.requestRender();
         child.setRequestRenderListener(getRequestRenderListener());
-        child.requestRender();
         if(mIsResumed){
             child.onResume();
         }
@@ -26,6 +25,7 @@ public class Stage extends Group {
                 child.onSurfaceChanged(mSurfaceWidth, mSurfaceHeight);
             }
         });
+        child.requestRender();
     }
 
     //    @Override
