@@ -25,6 +25,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class StageView extends GLSurfaceView {
     protected Stage mStage;
     private int mRenderMode = RENDERMODE_WHEN_DIRTY;
+    private EGLConfigChooser mEGLConfigChooser;
 
     public StageView(Context context) {
         super(context);
@@ -45,9 +46,25 @@ public class StageView extends GLSurfaceView {
             }
         });
         this.setEGLContextClientVersion(2); // 设置使用OPENGL ES2.0
-        setEGLConfigChooser(new AntiAliasingEGLConfigChooser());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             setPreserveEGLContextOnPause(true);//如果没有这一句，那onPause之后再onResume屏幕将会是黑屏滴
+        }
+    }
+
+    @Override
+    public void setEGLConfigChooser(boolean needDepth) {
+        super.setEGLConfigChooser(needDepth);
+    }
+
+    @Override
+    public void setEGLConfigChooser(EGLConfigChooser configChooser) {
+        super.setEGLConfigChooser(configChooser);
+        mEGLConfigChooser = configChooser;
+    }
+
+    public void initRenderer() {
+        if (mEGLConfigChooser == null) {
+            mEGLConfigChooser = new AntiAliasingEGLConfigChooser();
         }
         setRenderer(mRenderer); // 设置渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
