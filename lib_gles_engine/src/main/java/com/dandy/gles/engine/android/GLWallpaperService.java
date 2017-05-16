@@ -62,6 +62,7 @@ public abstract class GLWallpaperService extends WallpaperService {
         class ProxyStageView extends StageView {
             public ProxyStageView(Context context) {
                 super(context);
+                initRenderer();
             }
 
             @Override

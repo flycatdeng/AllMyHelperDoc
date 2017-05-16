@@ -26,6 +26,7 @@ public abstract class SimpleGLActivity extends Activity {
         super.onCreate(savedInstanceState);
         mContent = getSimpleGLContent(this);
         mStageView = new StageView(this);
+        mStageView.initRenderer();
         setContentView(mStageView);
         Stage stage = mStageView.getStage();
         mContent.onCreate(stage);
