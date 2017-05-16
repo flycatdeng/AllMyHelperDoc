@@ -175,6 +175,27 @@ public class TextureHelper {
         return texture[0];
     }
 
+    public static int genNullContentTextureID() {
+        TextureOptions options = TextureOptions.defaultOptions();
+        int textureId;
+        // 生成纹理ID
+        int[] textures = new int[1];
+        GLES20.glGenTextures(1, // 产生的纹理id的数量
+                textures, // 纹理id的数组
+                0 // 偏移量
+        );
+        textureId = textures[0];// 获取产生的纹理ID
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);// 绑定纹理ID,这里是非常关键的，因为之后不会用到这个ID,直到取图片的时候才用到
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, options.glTextureMinFilter);// 采用MIN采样方式
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, options.glTextureMagFilter);// 采用MAG采样方式
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, options.glTextureWapS);// 设置S轴拉伸方式
+        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, options.glTextureWapT);// 设置T轴拉伸方式
+        if (options.useMipmap) {
+            GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+        }
+        return textureId;
+    }
+
     /**
      * <pre>
      * 初始绑定图片到对应纹理ID
