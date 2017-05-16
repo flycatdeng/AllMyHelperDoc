@@ -178,7 +178,6 @@ public class Actor implements IGLActor, IActorMatrixOperation {
      */
     @Override
     public void onSurfaceChanged(final int width, final int height) {
-        LogHelper.d(TAG, "onSurfaceChanged width=" + width + " height=" + height);
         mSurfaceWidth = width;
         mSurfaceHeight = height;
     }
