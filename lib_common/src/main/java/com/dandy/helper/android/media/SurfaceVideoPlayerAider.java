@@ -165,6 +165,10 @@ public class SurfaceVideoPlayerAider {
     }
 
     public void onDestroy() {
+        if(mDateSourceSets!=null){
+            mDateSourceSets.clear();
+            mDateSourceSets=null;
+        }
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
